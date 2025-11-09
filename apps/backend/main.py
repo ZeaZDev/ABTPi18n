@@ -1,6 +1,6 @@
 """// ZeaZDev [Backend FastAPI Entrypoint] //
 // Project: Auto Bot Trader i18n //
-// Version: 1.0.0 (Omega Scaffolding) //
+// Version: 1.0.0 (Phase 2 Enhanced) //
 // Author: ZeaZDev Meta-Intelligence (Generated) //
 // --- DO NOT EDIT HEADER --- //"""
 import os
@@ -13,6 +13,8 @@ from src.api.bot_endpoints import router as bot_router
 from src.security.crypto_service import encrypt_data
 from src.trading.strategy_interface import StrategyRegistry
 from typing import Optional
+from prometheus_client import make_asgi_app
+from prometheus_fastapi_instrumentator import Instrumentator
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 ENCRYPTION_KEY = os.getenv("ENCRYPTION_KEY")
@@ -41,6 +43,8 @@ class LoginInput(BaseModel):
 @app.on_event("startup")
 async def startup():
     await prisma.connect()
+    # Initialize Prometheus instrumentation
+    Instrumentator().instrument(app).expose(app, endpoint="/metrics")
 
 @app.on_event("shutdown")
 async def shutdown():

@@ -66,6 +66,7 @@ flowchart LR
 - [PHASE6_IMPLEMENTATION_SUMMARY.md](PHASE6_IMPLEMENTATION_SUMMARY.md) — สรุปการสร้างเฟส 6 (เสร็จแล้ว ✅)
 - [PHASE6_SUMMARY.md](PHASE6_SUMMARY.md) — สรุปแผนงานเฟส 6 (เสร็จแล้ว ✅)
 - [PHASE6_GUIDE.md](PHASE6_GUIDE.md) — คู่มือการใช้งานฟีเจอร์เฟส 6
+- [PHASE6_QUICK_START.md](PHASE6_QUICK_START.md) — คู่มือเริ่มต้นอย่างรวดเร็วเฟส 6
 - [PHASE5_IMPLEMENTATION_SUMMARY.md](PHASE5_IMPLEMENTATION_SUMMARY.md) — สรุปการสร้างเฟส 5 (เสร็จแล้ว ✅)
 - [PHASE5_SUMMARY.md](PHASE5_SUMMARY.md) — สรุปแผนงานเฟส 5 (เสร็จแล้ว ✅)
 - [PHASE5_GUIDE.md](PHASE5_GUIDE.md) — คู่มือการใช้งานฟีเจอร์เฟส 5

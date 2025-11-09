@@ -18,9 +18,15 @@ Welcome to the Auto Bot Trader Pro (ABTPro) i18n documentation. This directory c
 
 ### Phase Documentation
 
+#### Phase 1: Foundation & Security
+- [Phase 1 Guide](phases/phase1/PHASE1_GUIDE.md)
+- [Phase 1 Summary](phases/phase1/PHASE1_SUMMARY.md)
+- [Phase 1 Implementation](phases/phase1/PHASE1_IMPLEMENTATION_SUMMARY.md)
+
 #### Phase 2: Strategy Engine & Risk Management
 - [Phase 2 Guide](phases/phase2/PHASE2_GUIDE.md)
 - [Phase 2 Summary](phases/phase2/PHASE2_SUMMARY.md)
+- [Phase 2 Implementation](phases/phase2/PHASE2_IMPLEMENTATION_SUMMARY.md)
 
 #### Phase 3: i18n Dashboard & Authentication
 - [Phase 3 Guide](phases/phase3/PHASE3_GUIDE.md)
@@ -61,6 +67,7 @@ docs/
 │   ├── STRATEGY_GUIDE.md         # Strategy development guide
 │   └── DR_FAILOVER_STRATEGY.md   # Disaster recovery strategy
 └── phases/                        # Phase-specific documentation
+    ├── phase1/                   # Phase 1: Foundation & Security
     ├── phase2/                   # Phase 2: Strategy Engine
     ├── phase3/                   # Phase 3: i18n & Auth
     ├── phase4/                   # Phase 4: Monetization

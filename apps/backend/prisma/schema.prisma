@@ -40,6 +40,9 @@ model User {
   // Phase 5 relations
   auditLogs              AuditLog[]
   secretRotations        SecretRotation[]
+  // Phase 6 relations
+  mlSignalScores         MLSignalScore[]
+  strategyOptimizations  StrategyOptimization[]
 }
 
 model ExchangeKey {
@@ -312,4 +315,76 @@ model SecretRotation {
   @@index([secretName])
   @@index([nextRotation])
   @@index([status])
+}
+
+// Phase 6: ML / Intelligence Models
+
+model MLSignalScore {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+  symbol      String
+  timeframe   String
+  strategy    String
+  score       Float
+  confidence  Float
+  features    String   // JSON
+  prediction  String?  // BUY, SELL, HOLD
+  executed    Boolean  @default(false)
+  outcome     String?  // WIN, LOSS, PENDING
+  createdAt   DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([symbol, strategy])
+  @@index([createdAt])
+}
+
+model MLModelTraining {
+  id              Int       @id @default(autoincrement())
+  modelType       String    // SIGNAL_QUALITY, RL_TUNER, VOLATILITY
+  modelVersion    String
+  trainingData    String    // JSON
+  hyperparameters String    // JSON
+  performance     String    // JSON (metrics like accuracy, MAE, etc.)
+  status          String    // TRAINING, COMPLETED, FAILED
+  startedAt       DateTime  @default(now())
+  completedAt     DateTime?
+  errorMessage    String?
+
+  @@index([modelType, status])
+  @@index([status])
+}
+
+model StrategyOptimization {
+  id              Int      @id @default(autoincrement())
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id])
+  strategy        String
+  originalParams  String   // JSON
+  optimizedParams String   // JSON
+  performance     String   // JSON (before/after metrics)
+  method          String   // RL, GRID_SEARCH, BAYESIAN
+  iterations      Int      @default(0)
+  status          String   @default("PENDING") // PENDING, RUNNING, COMPLETED, FAILED
+  createdAt       DateTime @default(now())
+  completedAt     DateTime?
+
+  @@index([userId, strategy])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model VolatilityPrediction {
+  id          Int      @id @default(autoincrement())
+  symbol      String
+  timeframe   String
+  predicted   Float
+  actual      Float?
+  confidence  Float
+  features    String   // JSON
+  horizon     Int      // Prediction horizon in hours
+  createdAt   DateTime @default(now())
+
+  @@index([symbol, createdAt])
+  @@index([createdAt])
 }

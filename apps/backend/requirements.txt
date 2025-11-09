@@ -1,6 +1,6 @@
 # // ZeaZDev [Backend Python Dependencies] //
 # // Project: Auto Bot Trader i18n //
-# // Version: 1.0.0 (Phase 5 - Compliance & Audit) //
+# // Version: 1.0.0 (Phase 6 - ML / Intelligence) //
 # // Author: ZeaZDev Meta-Intelligence (Generated) //
 # // --- DO NOT EDIT HEADER --- //
 fastapi==0.110.1
@@ -40,3 +40,6 @@ semgrep==1.45.0
 python-json-logger==2.0.7
 # Phase 5: Monitoring
 psutil==5.9.6
+# Phase 6: Machine Learning
+scikit-learn==1.3.2
+scipy==1.11.4

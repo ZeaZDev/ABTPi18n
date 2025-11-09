@@ -1,6 +1,6 @@
 """// ZeaZDev [Backend FastAPI Entrypoint] //
 // Project: Auto Bot Trader i18n //
-// Version: 1.0.0 (Phase 5) //
+// Version: 1.0.0 (Phase 6) //
 // Author: ZeaZDev Meta-Intelligence (Generated) //
 // --- DO NOT EDIT HEADER --- //"""
 import os
@@ -23,6 +23,8 @@ from src.api.backtest_endpoints import router as backtest_router
 from src.api.audit_endpoints import router as audit_router
 from src.api.secret_rotation_endpoints import router as secrets_router
 from src.api.health_endpoints import router as health_router
+# Phase 6 routers
+from src.api.ml_endpoints import router as ml_router
 from src.security.crypto_service import encrypt_data
 from src.trading.strategy_interface import StrategyRegistry
 # Phase 5 middleware
@@ -123,3 +125,5 @@ app.include_router(backtest_router, prefix="/backtest", tags=["Backtesting & Pap
 app.include_router(audit_router, prefix="/audit", tags=["Audit Trail"])
 app.include_router(secrets_router, prefix="/secrets", tags=["Secret Rotation"])
 app.include_router(health_router, prefix="/health", tags=["Health & Monitoring"])
+# Phase 6 routes
+app.include_router(ml_router, tags=["ML & Intelligence"])

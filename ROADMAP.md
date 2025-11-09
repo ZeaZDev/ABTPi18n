@@ -43,7 +43,10 @@
 - ✅ Secret Rotation Flow
 - ✅ DR/Failover Strategy (Multi-region)
 
-## Phase 6: ML / Intelligence (เสริม)
-- Signal Quality Scoring
-- Reinforcement Strategy Tuning
-- Predictive Volatility Estimation
+## Phase 6: ML / Intelligence (เสร็จแล้ว ✅)
+- **Summary**: [PHASE6_SUMMARY.md](PHASE6_SUMMARY.md)
+- **Guide**: [PHASE6_GUIDE.md](PHASE6_GUIDE.md)
+- **Implementation Summary**: [PHASE6_IMPLEMENTATION_SUMMARY.md](PHASE6_IMPLEMENTATION_SUMMARY.md)
+- ✅ Signal Quality Scoring
+- ✅ Reinforcement Strategy Tuning
+- ✅ Predictive Volatility Estimation

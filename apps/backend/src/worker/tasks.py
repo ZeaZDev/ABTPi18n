@@ -5,13 +5,13 @@
 // --- DO NOT EDIT HEADER --- //"""
 import asyncio
 import os
-from celery import shared_task
+from src.worker.celery_app import celery_app
 from prisma import Prisma
 from src.trading.bot_runner import BotRunner
 
 prisma = Prisma()
 
-@shared_task(bind=True, name="run_bot_loop")
+@celery_app.task(bind=True, name="run_bot_loop")
 def run_bot_loop(self, bot_id: int):
     asyncio.run(run_bot_async(bot_id))
 

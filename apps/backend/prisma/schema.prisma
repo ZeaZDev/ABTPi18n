@@ -47,15 +47,16 @@ model Strategy {
 }
 
 model BotRun {
-  id          Int      @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   userId      Int
-  user        User     @relation(fields: [userId], references: [id])
+  user        User       @relation(fields: [userId], references: [id])
   strategy    String
   symbol      String
   timeframe   String
-  status      String   @default("RUNNING")
-  startedAt   DateTime @default(now())
+  status      String     @default("RUNNING")
+  startedAt   DateTime   @default(now())
   stoppedAt   DateTime?
+  tradeLogs   TradeLog[]
 }
 
 model TradeLog {

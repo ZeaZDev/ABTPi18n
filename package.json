@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "Auto Bot Trader Pro i18n Monorepo",
+  "license": "MIT",
   "workspaces": [
     "apps/*"
   ],

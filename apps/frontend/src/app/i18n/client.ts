@@ -8,6 +8,8 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import enTranslation from '../../../public/locales/en/translation.json';
+import thTranslation from '../../../public/locales/th/translation.json';
 
 let initialized = false;
 
@@ -28,10 +30,10 @@ export function initI18n(locale: string) {
         },
         resources: {
           en: {
-            translation: require('../../../public/locales/en/translation.json')
+            translation: enTranslation
           },
           th: {
-            translation: require('../../../public/locales/th/translation.json')
+            translation: thTranslation
           }
         }
       });

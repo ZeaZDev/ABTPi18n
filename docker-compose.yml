@@ -51,7 +51,7 @@ services:
     container_name: abt_worker
     restart: unless-stopped
     env_file: .env
-    command: ["python", "src/worker/tasks.py"]
+    command: ["python", "worker.py"]
     depends_on:
       - backend
       - redis

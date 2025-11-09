@@ -8,7 +8,6 @@ from pydantic import BaseModel
 from prisma import Prisma
 from datetime import datetime
 from src.worker.tasks import run_bot_loop
-from celery import Celery
 
 router = APIRouter()
 prisma = Prisma()

@@ -2,6 +2,15 @@
 
 แพลตฟอร์ม Auto Bot Trader ระดับ Production รองรับหลายภาษา (i18n) และหลายกลยุทธ์ (Multi-Strategy) บนหลาย Exchange (Multi-Exchange) พร้อมระบบความปลอดภัยสำหรับ API Key (AES-GCM) และส่วนขยายทางธุรกิจ (Rental, PromptPay Top-up, Module Plugin)
 
+## 🚀 Latest Release
+
+**Version 1.0.0** - [View Release Notes](CHANGELOG.md) | [Release Guide](docs/guides/RELEASE.md)
+
+To create a new release:
+```bash
+./release.sh 1.0.0
+```
+
 ## คุณสมบัติหลัก
 - FastAPI Backend + Celery Worker Loop
 - Next.js Frontend (App Router) + react-i18next
@@ -72,6 +81,7 @@ flowchart LR
 - [คู่มือการพัฒนา (Contributing)](docs/guides/CONTRIBUTING.md) — Development setup and workflow
 - [แผนงาน (Roadmap)](docs/guides/ROADMAP.md) — สถานะและแผนงานทั้งหมด
 - [ความปลอดภัย (Security)](docs/guides/SECURITY.md) — Security model และ best practices
+- [Release Process](docs/guides/RELEASE.md) — How to create releases and publish packages
 
 ### การติดตั้งและตั้งค่า
 - [GitHub Setup](docs/setup/GITHUB-SETUP.md) — การตั้งค่า GitHub Secrets

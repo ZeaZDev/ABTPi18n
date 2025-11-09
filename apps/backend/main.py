@@ -52,6 +52,9 @@ app.add_middleware(
 if os.getenv("ENABLE_AUDIT_LOGGING", "true").lower() == "true":
     app.add_middleware(AuditMiddleware)
 
+# Initialize Prometheus instrumentation at module level
+Instrumentator().instrument(app).expose(app, endpoint="/metrics")
+
 class ExchangeKeyInput(BaseModel):
     exchange: str
     api_key: str
@@ -63,13 +66,55 @@ class LoginInput(BaseModel):
 
 @app.on_event("startup")
 async def startup():
-    await prisma.connect()
-    # Initialize Prometheus instrumentation
-    Instrumentator().instrument(app).expose(app, endpoint="/metrics")
+    """Startup handler with lazy DB connection retry"""
+    try:
+        await prisma.connect()
+    except Exception as e:
+        # Log error but don't crash - allow health endpoint to handle retries
+        print(f"Warning: Database connection failed during startup: {e}")
 
 @app.on_event("shutdown")
 async def shutdown():
-    await prisma.disconnect()
+    """Shutdown handler with safe disconnect"""
+    try:
+        if prisma.is_connected():
+            await prisma.disconnect()
+    except Exception as e:
+        print(f"Warning: Error during database disconnect: {e}")
+
+@app.get("/health")
+async def health_check():
+    """
+    Health check endpoint with lazy DB connection
+    Returns status ok or degraded with error details
+    """
+    status = "ok"
+    db_status = "connected"
+    error = None
+    
+    try:
+        # Attempt to connect if not connected
+        if not prisma.is_connected():
+            await prisma.connect()
+        
+        # Simple query to verify connection
+        await prisma.user.count()
+        db_status = "connected"
+    except Exception as e:
+        status = "degraded"
+        db_status = "disconnected"
+        error = str(e)
+    
+    response = {
+        "status": status,
+        "database": db_status,
+        "timestamp": datetime.utcnow().isoformat()
+    }
+    
+    if error:
+        response["error"] = error
+    
+    return response
 
 @app.post("/auth/login")
 async def login(data: LoginInput):

@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "dev:frontend": "pnpm --filter frontend dev",
-    "dev:backend": "uvicorn apps.backend.main:app --reload --port 8000",
+    "dev:backend": "cd apps/backend && uvicorn main:app --reload --port 8000",
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate"
   },

@@ -14,34 +14,43 @@ datasource db {
 }
 
 model User {
-  id                    Int                     @id @default(autoincrement())
-  email                 String                  @unique
+  id                     Int                     @id @default(autoincrement())
+  email                  String                  @unique
   // OAuth fields for Phase 3
-  googleId              String?                 @unique
-  oauthProvider         String?
-  profilePicture        String?
-  createdAt             DateTime                @default(now())
-  exchangeKeys          ExchangeKey[]
-  botRuns               BotRun[]
-  tradeLogs             TradeLog[]
-  rentalContracts       RentalContract[]
-  telegramLink          TelegramLink?
-  promptpayTopups       PromptPayTopup[]
-  modules               ModuleRegistration[]
+  googleId               String?                 @unique
+  oauthProvider          String?
+  profilePicture         String?
+  createdAt              DateTime                @default(now())
+  exchangeKeys           ExchangeKey[]
+  botRuns                BotRun[]
+  tradeLogs              TradeLog[]
+  rentalContracts        RentalContract[]
+  telegramLink           TelegramLink?
+  promptpayTopups        PromptPayTopup[]
+  modules                ModuleRegistration[]
   notificationPreference NotificationPreference?
-  userPreference        UserPreference?
+  userPreference         UserPreference?
+  // Phase 4 relations
+  wallet                 Wallet?
+  transactions           Transaction[]
+  userPlugins            UserPlugin[]
+  accounts               Account[]
+  backtestRuns           BacktestRun[]
+  paperTradingSessions   PaperTradingSession[]
 }
 
 model ExchangeKey {
-  id             Int      @id @default(autoincrement())
-  exchange       String
-  encrypted_key  String
-  iv_key         String
+  id               Int       @id @default(autoincrement())
+  exchange         String
+  encrypted_key    String
+  iv_key           String
   encrypted_secret String
-  iv_secret      String
-  createdAt      DateTime @default(now())
-  ownerId        Int?
-  owner          User?    @relation(fields: [ownerId], references: [id])
+  iv_secret        String
+  createdAt        DateTime  @default(now())
+  ownerId          Int?
+  owner            User?     @relation(fields: [ownerId], references: [id])
+  // Phase 4: Support for multi-account
+  accounts         Account[]
 }
 
 model Strategy {
@@ -53,80 +62,86 @@ model Strategy {
 }
 
 model BotRun {
-  id          Int        @id @default(autoincrement())
-  userId      Int
-  user        User       @relation(fields: [userId], references: [id])
-  strategy    String
-  symbol      String
-  timeframe   String
-  status      String     @default("RUNNING")
-  startedAt   DateTime   @default(now())
-  stoppedAt   DateTime?
-  tradeLogs   TradeLog[]
+  id        Int        @id @default(autoincrement())
+  userId    Int
+  user      User       @relation(fields: [userId], references: [id])
+  strategy  String
+  symbol    String
+  timeframe String
+  status    String     @default("RUNNING")
+  startedAt DateTime   @default(now())
+  stoppedAt DateTime?
+  tradeLogs TradeLog[]
 }
 
 model TradeLog {
-  id          Int      @id @default(autoincrement())
-  botRunId    Int
-  botRun      BotRun   @relation(fields: [botRunId], references: [id])
-  side        String
-  quantity    Float
-  price       Float
-  pnl         Float     @default(0)
-  createdAt   DateTime  @default(now())
+  id        Int      @id @default(autoincrement())
+  botRunId  Int
+  botRun    BotRun   @relation(fields: [botRunId], references: [id])
+  side      String
+  quantity  Float
+  price     Float
+  pnl       Float    @default(0)
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
 }
 
 model RentalContract {
-  id          Int      @id @default(autoincrement())
-  userId      Int
-  user        User     @relation(fields: [userId], references: [id])
-  plan        String
-  expiry      DateTime
-  status      String   @default("ACTIVE")
-  createdAt   DateTime @default(now())
+  id              Int       @id @default(autoincrement())
+  userId          Int
+  user            User      @relation(fields: [userId], references: [id])
+  plan            String // BASIC, PREMIUM, ENTERPRISE
+  expiry          DateTime
+  status          String    @default("ACTIVE") // ACTIVE, EXPIRED, SUSPENDED
+  gracePeriodDays Int       @default(3)
+  autoRenew       Boolean   @default(false)
+  features        String? // JSON array of enabled features
+  createdAt       DateTime  @default(now())
+  renewedAt       DateTime?
 }
 
 model PromptPayTopup {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   userId      Int
-  user        User     @relation(fields: [userId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
   amount      Float
-  currency    String   @default("THB")
-  status      String   @default("PENDING")
-  createdAt   DateTime @default(now())
+  currency    String    @default("THB")
+  status      String    @default("PENDING")
+  createdAt   DateTime  @default(now())
   confirmedAt DateTime?
 }
 
 model ModuleRegistration {
-  id          Int      @id @default(autoincrement())
-  userId      Int
-  user        User     @relation(fields: [userId], references: [id])
-  moduleName  String
-  enabled     Boolean   @default(true)
-  createdAt   DateTime  @default(now())
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id])
+  moduleName String
+  enabled    Boolean  @default(true)
+  createdAt  DateTime @default(now())
 }
 
 model TelegramLink {
-  id          Int      @id @default(autoincrement())
-  userId      Int      @unique
-  user        User     @relation(fields: [userId], references: [id])
-  chatId      String
-  username    String?
-  verified    Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        Int      @id @default(autoincrement())
+  userId    Int      @unique
+  user      User     @relation(fields: [userId], references: [id])
+  chatId    String
+  username  String?
+  verified  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model NotificationPreference {
-  id              Int      @id @default(autoincrement())
-  userId          Int      @unique
-  user            User     @relation(fields: [userId], references: [id])
-  tradeAlerts     Boolean  @default(true)
-  riskAlerts      Boolean  @default(true)
-  systemAlerts    Boolean  @default(true)
-  dailySummary    Boolean  @default(true)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id           Int      @id @default(autoincrement())
+  userId       Int      @unique
+  user         User     @relation(fields: [userId], references: [id])
+  tradeAlerts  Boolean  @default(true)
+  riskAlerts   Boolean  @default(true)
+  systemAlerts Boolean  @default(true)
+  dailySummary Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model UserPreference {
@@ -142,4 +157,116 @@ model UserPreference {
   refreshInterval Int      @default(30)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+}
+
+// ===== Phase 4 Models =====
+
+model Wallet {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @unique
+  user      User     @relation(fields: [userId], references: [id])
+  balance   Float    @default(0)
+  currency  String   @default("THB")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Transaction {
+  id            Int       @id @default(autoincrement())
+  userId        Int
+  user          User      @relation(fields: [userId], references: [id])
+  type          String // TOP_UP, DEDUCTION, REFUND
+  amount        Float
+  currency      String    @default("THB")
+  status        String    @default("PENDING")
+  paymentMethod String? // PROMPTPAY, CREDIT_CARD
+  referenceId   String?   @unique
+  metadata      String? // JSON for additional data
+  createdAt     DateTime  @default(now())
+  completedAt   DateTime?
+}
+
+model Plugin {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  version     String
+  type        String // STRATEGY, INDICATOR, NOTIFICATION, DATASOURCE
+  entryPoint  String
+  author      String?
+  description String?
+  verified    Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  userPlugins UserPlugin[]
+}
+
+model UserPlugin {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  pluginId  Int
+  plugin    Plugin   @relation(fields: [pluginId], references: [id])
+  enabled   Boolean  @default(false)
+  config    String? // JSON configuration
+  createdAt DateTime @default(now())
+
+  @@unique([userId, pluginId])
+}
+
+model Account {
+  id            Int         @id @default(autoincrement())
+  userId        Int
+  user          User        @relation(fields: [userId], references: [id])
+  exchangeKeyId Int
+  exchangeKey   ExchangeKey @relation(fields: [exchangeKeyId], references: [id])
+  label         String // User-defined label for account
+  group         String? // Optional grouping
+  enabled       Boolean     @default(true)
+  createdAt     DateTime    @default(now())
+  positions     Position[]
+}
+
+model Position {
+  id           Int      @id @default(autoincrement())
+  accountId    Int
+  account      Account  @relation(fields: [accountId], references: [id])
+  symbol       String
+  side         String // LONG, SHORT
+  quantity     Float
+  entryPrice   Float
+  currentPrice Float?
+  pnl          Float    @default(0)
+  updatedAt    DateTime @updatedAt
+
+  @@unique([accountId, symbol])
+}
+
+model BacktestRun {
+  id             Int       @id @default(autoincrement())
+  userId         Int
+  user           User      @relation(fields: [userId], references: [id])
+  strategyName   String
+  symbol         String
+  timeframe      String
+  startDate      DateTime
+  endDate        DateTime
+  initialCapital Float
+  status         String    @default("PENDING") // PENDING, RUNNING, COMPLETED, FAILED
+  results        String? // JSON with metrics
+  createdAt      DateTime  @default(now())
+  completedAt    DateTime?
+}
+
+model PaperTradingSession {
+  id             Int       @id @default(autoincrement())
+  userId         Int
+  user           User      @relation(fields: [userId], references: [id])
+  strategyName   String
+  symbol         String
+  timeframe      String
+  virtualBalance Float     @default(10000)
+  currentBalance Float?
+  status         String    @default("ACTIVE")
+  startedAt      DateTime  @default(now())
+  stoppedAt      DateTime?
 }

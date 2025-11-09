@@ -23,12 +23,15 @@
 - ✅ Dynamic Theme / Config GUI
 - ✅ เพิ่มภาษาใหม่ (จีน, ญี่ปุ่น)
 
-## Phase 4: Advanced Risk & Monetization
-- PromptPay Top-up Flow (QR / Callback)
-- Rental Contract Expiry Enforcement
-- Module Plugin Loader (Entry Point)
-- Portfolio Aggregation / Multi-Account
-- Backtester / Paper Trading Mode
+## Phase 4: Advanced Risk & Monetization (เสร็จแล้ว ✅)
+- **Summary**: [PHASE4_SUMMARY.md](PHASE4_SUMMARY.md)
+- **Guide**: [PHASE4_GUIDE.md](PHASE4_GUIDE.md)
+- **Implementation Summary**: [PHASE4_IMPLEMENTATION_SUMMARY.md](PHASE4_IMPLEMENTATION_SUMMARY.md)
+- ✅ PromptPay Top-up Flow (QR / Callback)
+- ✅ Rental Contract Expiry Enforcement
+- ✅ Module Plugin Loader (Entry Point)
+- ✅ Portfolio Aggregation / Multi-Account
+- ✅ Backtester / Paper Trading Mode
 
 ## Phase 5: Compliance & Audit
 - เพิ่ม Audit Trail ทุก API

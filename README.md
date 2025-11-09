@@ -9,7 +9,8 @@
 - Strategy Engine แบบ Plug-in (RSI Cross ตัวอย่าง Production)
 - Prisma Schema สำหรับ Postgres
 - ระบบเช่า (Rental Contract), เติมเงิน (PromptPay), โมดูล (ModuleRegistration)
-- **Phase 3 (NEW):** Google OAuth Authentication, Telegram Notifications, Dynamic Themes, Multi-language Support (Thai, English, Chinese, Japanese)
+- **Phase 3 (DONE ✅):** Google OAuth Authentication, Telegram Notifications, Dynamic Themes, Multi-language Support (Thai, English, Chinese, Japanese)
+- **Phase 4 (DONE ✅):** PromptPay Top-up Flow, Rental Expiry Enforcement, Plugin Loader, Portfolio Aggregation, Backtester & Paper Trading
 
 ## สถาปัตยกรรม
 ```mermaid
@@ -60,7 +61,10 @@ flowchart LR
 เพิ่มไฟล์ใหม่ใน `src/trading/strategies/` แล้ว `StrategyRegistry.register(YourStrategyClass)`
 
 ## เอกสาร (Documentation)
-- [PHASE3_SUMMARY.md](PHASE3_SUMMARY.md) — สรุปแผนงานเฟส 3 (กำลังดำเนินการ)
+- [PHASE4_IMPLEMENTATION_SUMMARY.md](PHASE4_IMPLEMENTATION_SUMMARY.md) — สรุปการสร้างเฟส 4 (เสร็จแล้ว ✅)
+- [PHASE4_SUMMARY.md](PHASE4_SUMMARY.md) — สรุปแผนงานเฟส 4 (เสร็จแล้ว ✅)
+- [PHASE4_GUIDE.md](PHASE4_GUIDE.md) — คู่มือการใช้งานฟีเจอร์เฟส 4
+- [PHASE3_SUMMARY.md](PHASE3_SUMMARY.md) — สรุปแผนงานเฟส 3 (เสร็จแล้ว ✅)
 - [PHASE3_GUIDE.md](PHASE3_GUIDE.md) — คู่มือการใช้งานฟีเจอร์เฟส 3
 - [PHASE2_SUMMARY.md](PHASE2_SUMMARY.md) — สรุปสิ่งที่ทำในเฟส 2
 - [PHASE2_GUIDE.md](PHASE2_GUIDE.md) — คู่มือการใช้งานฟีเจอร์เฟส 2

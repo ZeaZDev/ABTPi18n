@@ -10,5 +10,22 @@
   "bot.stop": "หยุดบอท",
   "strategies.list": "กลยุทธ์ที่ใช้งานได้",
   "rental.expiry": "วันหมดอายุการเช่า",
-  "topup.action": "เติมเงินผ่าน PromptPay"
+  "topup.action": "เติมเงินผ่าน PromptPay",
+  "auth.google_signin": "เข้าสู่ระบบด้วย Google",
+  "auth.logout": "ออกจากระบบ",
+  "telegram.link": "เชื่อมต่อบัญชี Telegram",
+  "telegram.unlink": "ยกเลิกการเชื่อมต่อ Telegram",
+  "telegram.linked": "เชื่อมต่อแล้ว",
+  "telegram.not_linked": "ยังไม่ได้เชื่อมต่อ",
+  "telegram.test_notification": "ส่งการแจ้งเตือนทดสอบ",
+  "theme.light": "โหมดสว่าง",
+  "theme.dark": "โหมดมืด",
+  "theme.auto": "อัตโนมัติ",
+  "theme.customize": "ปรับแต่งธีม",
+  "notifications.title": "ตั้งค่าการแจ้งเตือน",
+  "notifications.trade_alerts": "แจ้งเตือนการเทรด",
+  "notifications.risk_alerts": "แจ้งเตือนความเสี่ยง",
+  "notifications.system_alerts": "แจ้งเตือนระบบ",
+  "notifications.daily_summary": "สรุปรายวัน",
+  "language.select": "เลือกภาษา"
 }

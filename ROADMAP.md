@@ -15,13 +15,13 @@
 - เพิ่ม Streaming Market Data (WebSocket)
 - Logging & Metrics (Prometheus + Grafana)
 
-## Phase 3: i18n Dashboard & Auth (กำลังดำเนินการ)
+## Phase 3: i18n Dashboard & Auth (เสร็จแล้ว ✅)
 - **Summary**: [PHASE3_SUMMARY.md](PHASE3_SUMMARY.md)
 - **Guide**: [PHASE3_GUIDE.md](PHASE3_GUIDE.md)
-- Google OAuth Integration
-- Telegram Link & Notification
-- Dynamic Theme / Config GUI
-- เพิ่มภาษาใหม่ (จีน, ญี่ปุ่น)
+- ✅ Google OAuth Integration
+- ✅ Telegram Link & Notification
+- ✅ Dynamic Theme / Config GUI
+- ✅ เพิ่มภาษาใหม่ (จีน, ญี่ปุ่น)
 
 ## Phase 4: Advanced Risk & Monetization
 - PromptPay Top-up Flow (QR / Callback)

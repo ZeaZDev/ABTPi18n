@@ -18,6 +18,8 @@
     "typescript": "5.3.3",
     "@types/react": "18.2.0",
     "@types/react-dom": "18.2.0",
-    "@types/node": "20.10.0"
+    "@types/node": "20.10.0",
+    "@react-oauth/google": "^0.12.1",
+    "next-themes": "^0.2.1"
   }
 }

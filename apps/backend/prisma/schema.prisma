@@ -14,16 +14,22 @@ datasource db {
 }
 
 model User {
-  id                Int                 @id @default(autoincrement())
-  email             String              @unique
-  createdAt         DateTime            @default(now())
-  exchangeKeys      ExchangeKey[]
-  botRuns           BotRun[]
-  tradeLogs         TradeLog[]
-  rentalContracts   RentalContract[]
-  telegramLink      TelegramLink?
-  promptpayTopups   PromptPayTopup[]
-  modules           ModuleRegistration[]
+  id                    Int                     @id @default(autoincrement())
+  email                 String                  @unique
+  // OAuth fields for Phase 3
+  googleId              String?                 @unique
+  oauthProvider         String?
+  profilePicture        String?
+  createdAt             DateTime                @default(now())
+  exchangeKeys          ExchangeKey[]
+  botRuns               BotRun[]
+  tradeLogs             TradeLog[]
+  rentalContracts       RentalContract[]
+  telegramLink          TelegramLink?
+  promptpayTopups       PromptPayTopup[]
+  modules               ModuleRegistration[]
+  notificationPreference NotificationPreference?
+  userPreference        UserPreference?
 }
 
 model ExchangeKey {
@@ -105,5 +111,35 @@ model TelegramLink {
   userId      Int      @unique
   user        User     @relation(fields: [userId], references: [id])
   chatId      String
-  createdAt   DateTime  @default(now())
+  username    String?
+  verified    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model NotificationPreference {
+  id              Int      @id @default(autoincrement())
+  userId          Int      @unique
+  user            User     @relation(fields: [userId], references: [id])
+  tradeAlerts     Boolean  @default(true)
+  riskAlerts      Boolean  @default(true)
+  systemAlerts    Boolean  @default(true)
+  dailySummary    Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model UserPreference {
+  id              Int      @id @default(autoincrement())
+  userId          Int      @unique
+  user            User     @relation(fields: [userId], references: [id])
+  theme           String   @default("auto")
+  language        String   @default("th")
+  primaryColor    String?
+  secondaryColor  String?
+  accentColor     String?
+  dashboardLayout String   @default("grid")
+  refreshInterval Int      @default(30)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }

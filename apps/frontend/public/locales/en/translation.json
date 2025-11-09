@@ -10,5 +10,22 @@
   "bot.stop": "Stop Bot",
   "strategies.list": "Available Strategies",
   "rental.expiry": "Rental Expiry",
-  "topup.action": "Top-up via PromptPay"
+  "topup.action": "Top-up via PromptPay",
+  "auth.google_signin": "Sign in with Google",
+  "auth.logout": "Logout",
+  "telegram.link": "Link Telegram Account",
+  "telegram.unlink": "Unlink Telegram",
+  "telegram.linked": "Linked",
+  "telegram.not_linked": "Not Linked",
+  "telegram.test_notification": "Send Test Notification",
+  "theme.light": "Light Mode",
+  "theme.dark": "Dark Mode",
+  "theme.auto": "Auto",
+  "theme.customize": "Customize Theme",
+  "notifications.title": "Notification Settings",
+  "notifications.trade_alerts": "Trade Alerts",
+  "notifications.risk_alerts": "Risk Alerts",
+  "notifications.system_alerts": "System Alerts",
+  "notifications.daily_summary": "Daily Summary",
+  "language.select": "Select Language"
 }

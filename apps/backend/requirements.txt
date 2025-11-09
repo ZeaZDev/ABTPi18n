@@ -1,6 +1,6 @@
 # // ZeaZDev [Backend Python Dependencies] //
 # // Project: Auto Bot Trader i18n //
-# // Version: 1.0.0 (Phase 2 Enhanced) //
+# // Version: 1.0.0 (Phase 3 - OAuth & Telegram) //
 # // Author: ZeaZDev Meta-Intelligence (Generated) //
 # // --- DO NOT EDIT HEADER --- //
 fastapi==0.110.1
@@ -19,3 +19,9 @@ numpy==1.26.4
 pandas==2.2.1
 prometheus-client==0.20.0
 prometheus-fastapi-instrumentator==7.0.0
+# Phase 3: OAuth dependencies
+google-auth==2.27.0
+google-auth-oauthlib==1.2.0
+google-auth-httplib2==0.2.0
+# Phase 3: Telegram bot
+python-telegram-bot==20.7

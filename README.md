@@ -9,7 +9,7 @@
 - Strategy Engine แบบ Plug-in (RSI Cross ตัวอย่าง Production)
 - Prisma Schema สำหรับ Postgres
 - ระบบเช่า (Rental Contract), เติมเงิน (PromptPay), โมดูล (ModuleRegistration)
-- รองรับการเพิ่ม OAuth Google / Telegram (Roadmap)
+- **Phase 3 (NEW):** Google OAuth Authentication, Telegram Notifications, Dynamic Themes, Multi-language Support (Thai, English, Chinese, Japanese)
 
 ## สถาปัตยกรรม
 ```mermaid
@@ -30,11 +30,13 @@ flowchart LR
 ```
 
 ## Tech Stack
-- Frontend: Next.js + react-i18next
+- Frontend: Next.js + react-i18next + Theme System
 - Backend: FastAPI + Prisma Client (Python) + CCXT
 - DB: Postgres
 - Queue: Celery + Redis
 - Security: AES-GCM encryption service
+- Authentication: Google OAuth 2.0
+- Notifications: Telegram Bot API
 - Deployment: Docker Compose
 
 ## การติดตั้ง (ย่อ)
@@ -43,7 +45,11 @@ flowchart LR
 3. เข้าใช้งาน Frontend: http://localhost:3000/en/dashboard
 
 ## การใช้งานเบื้องต้น
+- เข้าสู่ระบบ: http://localhost:3000/en/login → Sign in with Google
 - เพิ่ม API Key: หน้า Settings → บันทึก → ส่งไปที่ `/exchange/keys`
+- เชื่อมต่อ Telegram: Settings → Telegram Integration → Link Account
+- ปรับแต่งธีม: Settings → Theme Customizer → เลือกสี/โหมด
+- เปลี่ยนภาษา: ใช้ Language Selector (🇬🇧 🇹🇭 🇨🇳 🇯🇵)
 - เริ่มบอท: Dashboard → Start Bot (เรียก `/bot/start`)
 - ดู PnL: Dashboard ดึง `/dashboard/pnl`
 

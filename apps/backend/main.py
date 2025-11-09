@@ -1,6 +1,6 @@
 """// ZeaZDev [Backend FastAPI Entrypoint] //
 // Project: Auto Bot Trader i18n //
-// Version: 1.0.0 (Phase 2 Enhanced) //
+// Version: 1.0.0 (Phase 3) //
 // Author: ZeaZDev Meta-Intelligence (Generated) //
 // --- DO NOT EDIT HEADER --- //"""
 import os
@@ -10,6 +10,9 @@ from pydantic import BaseModel
 from prisma import Prisma
 from datetime import datetime
 from src.api.bot_endpoints import router as bot_router
+from src.api.auth_endpoints import router as auth_router
+from src.api.telegram_endpoints import router as telegram_router
+from src.api.preferences_endpoints import router as preferences_router
 from src.security.crypto_service import encrypt_data
 from src.trading.strategy_interface import StrategyRegistry
 from typing import Optional
@@ -91,3 +94,6 @@ async def dashboard_pnl():
     }
 
 app.include_router(bot_router, prefix="/bot", tags=["Bot Control"])
+app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
+app.include_router(telegram_router, prefix="/telegram", tags=["Telegram"])
+app.include_router(preferences_router, prefix="/user", tags=["User Preferences"])

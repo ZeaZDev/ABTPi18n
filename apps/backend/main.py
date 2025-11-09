@@ -1,6 +1,6 @@
 """// ZeaZDev [Backend FastAPI Entrypoint] //
 // Project: Auto Bot Trader i18n //
-// Version: 1.0.0 (Phase 4) //
+// Version: 1.0.0 (Phase 5) //
 // Author: ZeaZDev Meta-Intelligence (Generated) //
 // --- DO NOT EDIT HEADER --- //"""
 import os
@@ -19,8 +19,14 @@ from src.api.rental_endpoints import router as rental_router
 from src.api.plugin_endpoints import router as plugin_router
 from src.api.portfolio_endpoints import router as portfolio_router
 from src.api.backtest_endpoints import router as backtest_router
+# Phase 5 routers
+from src.api.audit_endpoints import router as audit_router
+from src.api.secret_rotation_endpoints import router as secrets_router
+from src.api.health_endpoints import router as health_router
 from src.security.crypto_service import encrypt_data
 from src.trading.strategy_interface import StrategyRegistry
+# Phase 5 middleware
+from src.services.audit_middleware import AuditMiddleware
 from typing import Optional
 from prometheus_client import make_asgi_app
 from prometheus_fastapi_instrumentator import Instrumentator
@@ -39,6 +45,10 @@ app.add_middleware(
     allow_headers=["*"],
     allow_credentials=True
 )
+
+# Phase 5: Add audit middleware
+if os.getenv("ENABLE_AUDIT_LOGGING", "true").lower() == "true":
+    app.add_middleware(AuditMiddleware)
 
 class ExchangeKeyInput(BaseModel):
     exchange: str
@@ -109,3 +119,7 @@ app.include_router(rental_router, prefix="/rental", tags=["Rental Contracts"])
 app.include_router(plugin_router, prefix="/plugins", tags=["Plugin System"])
 app.include_router(portfolio_router, prefix="/portfolio", tags=["Portfolio Management"])
 app.include_router(backtest_router, prefix="/backtest", tags=["Backtesting & Paper Trading"])
+# Phase 5 routes
+app.include_router(audit_router, prefix="/audit", tags=["Audit Trail"])
+app.include_router(secrets_router, prefix="/secrets", tags=["Secret Rotation"])
+app.include_router(health_router, prefix="/health", tags=["Health & Monitoring"])

@@ -14,19 +14,36 @@
 ## สถาปัตยกรรม
 ```mermaid
 flowchart LR
-    FE[Frontend (Next.js i18n)] --> API[FastAPI Backend]
-    API --> SEC[Security Service (AES-GCM)]
-    SEC --> DB[(Postgres)]
-    API --> CELERY[Celery Dispatcher]
-    CELERY --> WORKER[Worker Loop]
-    WORKER --> STRAT[Strategy Engine]
-    STRAT --> RISK[Risk Manager]
-    RISK --> CCXT[CCXT Adapter]
-    CCXT --> EXCH[(Exchange APIs)]
-    STRAT --> LOGS[TradeLog -> DB]
-    API --> RENTAL[Rental Module]
-    API --> PAYMENT[PromptPay]
-    API --> TELE[Telegram Hook]
+    subgraph Client
+        FE[Frontend (Next.js i18n)]
+    end
+
+    subgraph Backend
+        API[FastAPI Backend]
+        SEC[Security Service (AES-GCM)]
+        CELERY[Celery Dispatcher]
+        WORKER[Worker Loop]
+        STRAT[Strategy Engine]
+        RISK[Risk Manager]
+        CCXT[CCXT Adapter]
+        RENTAL[Rental Module]
+        PAYMENT[PromptPay]
+        TELE[Telegram Hook]
+    end
+
+    subgraph Data
+        DB[(Postgres)]
+        LOGS[TradeLog → DB]
+        EXCH[(Exchange APIs)]
+    end
+
+    FE --> API
+    API --> SEC --> DB
+    API --> CELERY --> WORKER --> STRAT --> RISK --> CCXT --> EXCH
+    STRAT --> LOGS
+    API --> RENTAL
+    API --> PAYMENT
+    API --> TELE
 ```
 
 ## Tech Stack

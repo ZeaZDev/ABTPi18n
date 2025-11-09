@@ -3,7 +3,6 @@
 #// Version: 1.0.0 (Omega Scaffolding) //
 #// Author: ZeaZDev Meta-Intelligence (Generated) //
 #// --- DO NOT EDIT HEADER --- //
-version: "3.9"
 
 services:
   postgres:
@@ -14,6 +13,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASS}
       POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5433:5432"  # Host access on 5433, container uses 5432
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:

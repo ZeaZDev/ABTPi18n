@@ -39,10 +39,13 @@ ENCRYPTION_KEY = os.getenv("ENCRYPTION_KEY")
 app = FastAPI(title="ZeaZDev-ABTPro-i18n Backend", version="1.0.0")
 prisma = Prisma()
 
-origins = ["http://localhost:3000", os.getenv("FRONTEND_URL", "http://localhost:3000")]
+origins = {
+    "http://localhost:3000",
+    os.getenv("FRONTEND_URL", "http://localhost:3000"),
+}
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=[o.rstrip("/") for o in origins],
     allow_methods=["*"],
     allow_headers=["*"],
     allow_credentials=True
@@ -52,8 +55,12 @@ app.add_middleware(
 if os.getenv("ENABLE_AUDIT_LOGGING", "true").lower() == "true":
     app.add_middleware(AuditMiddleware)
 
-# Initialize Prometheus instrumentation at module level
-Instrumentator().instrument(app).expose(app, endpoint="/metrics")
+# Initialize Prometheus instrumentation at module level (before startup)
+Instrumentator().instrument(app).expose(
+    app,
+    endpoint="/metrics",
+    include_in_schema=False,
+)
 
 class ExchangeKeyInput(BaseModel):
     exchange: str
@@ -82,39 +89,15 @@ async def shutdown():
     except Exception as e:
         print(f"Warning: Error during database disconnect: {e}")
 
-@app.get("/health")
-async def health_check():
-    """
-    Health check endpoint with lazy DB connection
-    Returns status ok or degraded with error details
-    """
-    status = "ok"
-    db_status = "connected"
-    error = None
-    
-    try:
-        # Attempt to connect if not connected
-        if not prisma.is_connected():
+@app.get("/health", tags=["Health & Monitoring"])
+async def health():
+    """Health check endpoint with lazy DB connection"""
+    if not prisma.is_connected():
+        try:
             await prisma.connect()
-        
-        # Simple query to verify connection
-        await prisma.user.count()
-        db_status = "connected"
-    except Exception as e:
-        status = "degraded"
-        db_status = "disconnected"
-        error = str(e)
-    
-    response = {
-        "status": status,
-        "database": db_status,
-        "timestamp": datetime.utcnow().isoformat()
-    }
-    
-    if error:
-        response["error"] = error
-    
-    return response
+        except Exception as e:
+            return {"status": "degraded", "error": str(e)}
+    return {"status": "ok"}
 
 @app.post("/auth/login")
 async def login(data: LoginInput):
@@ -169,6 +152,6 @@ app.include_router(backtest_router, prefix="/backtest", tags=["Backtesting & Pap
 # Phase 5 routes
 app.include_router(audit_router, prefix="/audit", tags=["Audit Trail"])
 app.include_router(secrets_router, prefix="/secrets", tags=["Secret Rotation"])
-app.include_router(health_router, prefix="/health", tags=["Health & Monitoring"])
+# app.include_router(health_router, prefix="/health", tags=["Health & Monitoring"])  # optional alternative health router
 # Phase 6 routes
 app.include_router(ml_router, tags=["ML & Intelligence"])

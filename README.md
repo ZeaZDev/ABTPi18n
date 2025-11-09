@@ -11,6 +11,7 @@
 - ระบบเช่า (Rental Contract), เติมเงิน (PromptPay), โมดูล (ModuleRegistration)
 - **Phase 3 (DONE ✅):** Google OAuth Authentication, Telegram Notifications, Dynamic Themes, Multi-language Support (Thai, English, Chinese, Japanese)
 - **Phase 4 (DONE ✅):** PromptPay Top-up Flow, Rental Expiry Enforcement, Plugin Loader, Portfolio Aggregation, Backtester & Paper Trading
+- **Phase 5 (DONE ✅):** Audit Trail System, Static Code Scanning (Bandit/Semgrep), Secret Rotation Flow, DR/Failover Strategy
 
 ## สถาปัตยกรรม
 ```mermaid
@@ -61,6 +62,10 @@ flowchart LR
 เพิ่มไฟล์ใหม่ใน `src/trading/strategies/` แล้ว `StrategyRegistry.register(YourStrategyClass)`
 
 ## เอกสาร (Documentation)
+- [PHASE5_IMPLEMENTATION_SUMMARY.md](PHASE5_IMPLEMENTATION_SUMMARY.md) — สรุปการสร้างเฟส 5 (เสร็จแล้ว ✅)
+- [PHASE5_SUMMARY.md](PHASE5_SUMMARY.md) — สรุปแผนงานเฟส 5 (เสร็จแล้ว ✅)
+- [PHASE5_GUIDE.md](PHASE5_GUIDE.md) — คู่มือการใช้งานฟีเจอร์เฟส 5
+- [DR_FAILOVER_STRATEGY.md](DR_FAILOVER_STRATEGY.md) — กลยุทธ์การกู้คืนจากภัยพิบัติ
 - [PHASE4_IMPLEMENTATION_SUMMARY.md](PHASE4_IMPLEMENTATION_SUMMARY.md) — สรุปการสร้างเฟส 4 (เสร็จแล้ว ✅)
 - [PHASE4_SUMMARY.md](PHASE4_SUMMARY.md) — สรุปแผนงานเฟส 4 (เสร็จแล้ว ✅)
 - [PHASE4_GUIDE.md](PHASE4_GUIDE.md) — คู่มือการใช้งานฟีเจอร์เฟส 4

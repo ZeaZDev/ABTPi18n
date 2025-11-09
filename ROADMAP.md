@@ -33,11 +33,15 @@
 - ✅ Portfolio Aggregation / Multi-Account
 - ✅ Backtester / Paper Trading Mode
 
-## Phase 5: Compliance & Audit
-- เพิ่ม Audit Trail ทุก API
-- Static Code Scan (Bandit, Semgrep)
-- Secret Rotation Flow
-- DR/Failover Strategy (Multi-region)
+## Phase 5: Compliance & Audit (เสร็จแล้ว ✅)
+- **Summary**: [PHASE5_SUMMARY.md](PHASE5_SUMMARY.md)
+- **Guide**: [PHASE5_GUIDE.md](PHASE5_GUIDE.md)
+- **Implementation Summary**: [PHASE5_IMPLEMENTATION_SUMMARY.md](PHASE5_IMPLEMENTATION_SUMMARY.md)
+- **DR Strategy**: [DR_FAILOVER_STRATEGY.md](DR_FAILOVER_STRATEGY.md)
+- ✅ Audit Trail ทุก API
+- ✅ Static Code Scan (Bandit, Semgrep)
+- ✅ Secret Rotation Flow
+- ✅ DR/Failover Strategy (Multi-region)
 
 ## Phase 6: ML / Intelligence (เสริม)
 - Signal Quality Scoring

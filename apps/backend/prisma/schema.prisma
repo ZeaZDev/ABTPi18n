@@ -37,6 +37,9 @@ model User {
   accounts               Account[]
   backtestRuns           BacktestRun[]
   paperTradingSessions   PaperTradingSession[]
+  // Phase 5 relations
+  auditLogs              AuditLog[]
+  secretRotations        SecretRotation[]
 }
 
 model ExchangeKey {
@@ -269,4 +272,44 @@ model PaperTradingSession {
   status         String    @default("ACTIVE")
   startedAt      DateTime  @default(now())
   stoppedAt      DateTime?
+}
+
+// ===== Phase 5 Models =====
+
+model AuditLog {
+  id          Int      @id @default(autoincrement())
+  userId      Int?
+  user        User?    @relation(fields: [userId], references: [id])
+  action      String   // CREATE, READ, UPDATE, DELETE, LOGIN, LOGOUT
+  resource    String   // API endpoint or resource type
+  method      String   // GET, POST, PUT, DELETE
+  statusCode  Int
+  ipAddress   String?
+  userAgent   String?
+  requestData String?  // JSON (sanitized)
+  metadata    String?  // JSON for additional context
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([action])
+  @@index([resource])
+  @@index([createdAt])
+}
+
+model SecretRotation {
+  id           Int       @id @default(autoincrement())
+  secretType   String    // DATABASE, ENCRYPTION_KEY, API_KEY, OAUTH_SECRET
+  secretName   String    // Identifier for the secret
+  rotatedAt    DateTime  @default(now())
+  rotatedBy    Int?
+  user         User?     @relation(fields: [rotatedBy], references: [id])
+  previousHash String?   // Hash of previous value for verification
+  nextRotation DateTime  // Scheduled next rotation date
+  status       String    @default("ACTIVE") // ACTIVE, DEPRECATED, ROTATED
+  metadata     String?   // JSON for additional info
+
+  @@index([secretType])
+  @@index([secretName])
+  @@index([nextRotation])
+  @@index([status])
 }

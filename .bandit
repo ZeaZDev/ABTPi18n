@@ -1,0 +1,24 @@
+# Bandit configuration for Phase 5
+# Security scanning configuration for Python code
+
+[bandit]
+# Exclude paths
+exclude_dirs = [
+    '/tests',
+    '/node_modules',
+    '/.git',
+    '/.venv',
+    '/venv',
+    '/prisma/migrations'
+]
+
+# Tests to skip (if needed)
+skips = []
+
+# Test IDs to run (empty = all)
+tests = []
+
+# Severity level: LOW, MEDIUM, HIGH
+# Confidence level: LOW, MEDIUM, HIGH
+# Only report issues with MEDIUM confidence or higher
+exclude_low_confidence = true

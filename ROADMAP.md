@@ -7,7 +7,9 @@
 - Encrypted Exchange Keys (AES-GCM)
 - Strategy Interface + RSI_CROSS
 
-## Phase 2: Strategy Engine & Risk (เสร็จ)
+## Phase 2: Strategy Engine & Risk (เสร็จแล้ว)
+- **Summary**: [PHASE2_SUMMARY.md](PHASE2_SUMMARY.md)
+- **Guide**: [PHASE2_GUIDE.md](PHASE2_GUIDE.md)
 - เพิ่ม MeanReversion, Breakout, VWAP
 - เพิ่ม Risk Manager: Max Drawdown Tracker, Circuit Breaker
 - เพิ่ม Streaming Market Data (WebSocket)

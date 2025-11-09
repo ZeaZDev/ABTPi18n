@@ -28,6 +28,7 @@
 - Strategy ใหม่: มีเอกสารอธิบาย
 - API ใหม่: Update README + SECURITY impact
 - DB Schema: prisma migrate + regenerate
+- Docs: อัปเดต/ตรวจทาน PHASE2_GUIDE.md และ PHASE2_SUMMARY.md
 
 ## Tagging
 - v1.0.0 (Omega Scaffolding)

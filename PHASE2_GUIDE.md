@@ -1,7 +1,12 @@
-# Phase 2 Implementation Guide
+# คู่มือการใช้งาน เฟส 2 (Phase 2) Implementation Guide
 
 ## Overview
 Phase 2 adds advanced trading strategies, enhanced risk management, streaming market data via WebSocket, and comprehensive monitoring with Prometheus and Grafana.
+
+### Quick Links
+- [Phase 2 Summary](PHASE2_SUMMARY.md)
+- [Roadmap](ROADMAP.md)
+- [Strategy Guide](STRATEGY_GUIDE.md)
 
 ## New Features
 
@@ -92,8 +97,8 @@ await ws.subscribe_ticker("BTC/USDT", ticker_callback)
   - `exchange_api_latency_seconds`: API latency histogram
 
 #### Access Points
-- **Prometheus**: http://localhost:9090
-- **Grafana**: http://localhost:3001
+- **Prometheus**: [http://localhost:9090](http://localhost:9090)
+- **Grafana**: [http://localhost:3001](http://localhost:3001)
   - Username: `admin`
   - Password: `admin`
 
@@ -142,9 +147,9 @@ risk_manager = EnhancedRiskManager(
 ## Monitoring
 
 ### Viewing Metrics
-1. Open Grafana at http://localhost:3001
+1. Open Grafana at [http://localhost:3001](http://localhost:3001)
 2. Login with admin/admin
-3. Navigate to "ABTPro Trading Dashboard"
+3. Navigate to "ABTPi18n Trading Dashboard"
 4. View real-time metrics including:
    - Trade volume
    - Strategy performance
@@ -160,7 +165,7 @@ Dashboard configuration is in `/monitoring/grafana/dashboards/abtpro-dashboard.j
 ## API Endpoints
 
 ### Metrics Endpoint
-```
+```http
 GET /metrics
 ```
 Returns Prometheus-formatted metrics for scraping.

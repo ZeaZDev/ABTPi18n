@@ -53,6 +53,12 @@ flowchart LR
 ## กลยุทธ์
 เพิ่มไฟล์ใหม่ใน `src/trading/strategies/` แล้ว `StrategyRegistry.register(YourStrategyClass)`
 
+## เอกสาร (Documentation)
+- [PHASE2_SUMMARY.md](PHASE2_SUMMARY.md) — สรุปสิ่งที่ทำในเฟส 2
+- [PHASE2_GUIDE.md](PHASE2_GUIDE.md) — คู่มือการใช้งานฟีเจอร์เฟส 2
+- [ROADMAP.md](ROADMAP.md) — สถานะและแผนงาน (มาร์กเฟส 2 ว่า "เสร็จแล้ว")
+- [STRATEGY_GUIDE.md](STRATEGY_GUIDE.md) — คู่มือการพัฒนากลยุทธ์
+
 ## Roadmap
 ดูไฟล์ [ROADMAP.md](ROADMAP.md)
 

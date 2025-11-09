@@ -4,6 +4,9 @@
 - ENCRYPTION_KEY (Base64 256-bit)
 - DATABASE_URL (รูปแบบ: postgresql://user:pass@host:port/db)
 - REDIS_URL (redis://host:port/0)
+- GOOGLE_CLIENT_ID (Phase 3: OAuth)
+- GOOGLE_CLIENT_SECRET (Phase 3: OAuth)
+- TELEGRAM_BOT_TOKEN (Phase 3: Notifications)
 
 ## Branch Rules
 - main (Protected, ต้องผ่าน CI)
@@ -28,7 +31,8 @@
 - Strategy ใหม่: มีเอกสารอธิบาย
 - API ใหม่: Update README + SECURITY impact
 - DB Schema: prisma migrate + regenerate
-- Docs: อัปเดต/ตรวจทาน PHASE2_GUIDE.md และ PHASE2_SUMMARY.md
+- Docs: อัปเดต/ตรวจทาน เอกสาร Phase ที่เกี่ยวข้อง (PHASE2_GUIDE.md, PHASE3_GUIDE.md ฯลฯ)
+- i18n: ตรวจสอบ translation files ครบทุกภาษา (th, en, zh, ja)
 
 ## Tagging
 - v1.0.0 (Omega Scaffolding)

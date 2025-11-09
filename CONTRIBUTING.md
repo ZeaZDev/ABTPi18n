@@ -93,6 +93,40 @@ const { t } = useTranslation();
 return <div>{t('your.key')}</div>;
 ```
 
+#### Phase 3: Multi-language Support
+When adding new features, provide translations for all supported languages:
+- 🇹🇭 Thai (`th/`) - Default language
+- 🇬🇧 English (`en/`) - Primary international language
+- 🇨🇳 Chinese (`zh/`) - Simplified Chinese (Phase 3)
+- 🇯🇵 Japanese (`ja/`) - Japanese (Phase 3)
+
+Example translation structure:
+```json
+// apps/frontend/public/locales/en/translation.json
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back"
+  }
+}
+
+// apps/frontend/public/locales/zh/translation.json
+{
+  "dashboard": {
+    "title": "仪表板",
+    "welcome": "欢迎回来"
+  }
+}
+
+// apps/frontend/public/locales/ja/translation.json
+{
+  "dashboard": {
+    "title": "ダッシュボード",
+    "welcome": "お帰りなさい"
+  }
+}
+```
+
 ### Database Changes
 
 ```bash

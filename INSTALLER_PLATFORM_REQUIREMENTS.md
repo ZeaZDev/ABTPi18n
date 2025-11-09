@@ -15,6 +15,8 @@
 
 ## Network
 - เปิดพอร์ต: 3000 (Frontend), 8000 (Backend), 6379 (Redis), 5432 (Postgres)
+- Phase 2: 9090 (Prometheus), 3001 (Grafana)
+- Phase 3: HTTPS required สำหรับ OAuth callback และ Telegram webhook (Production)
 - แนะนำเปิด Firewall จำกัด Access ภายนอกเฉพาะจำเป็น
 
 ## Performance (ขั้นต่ำ Dev)

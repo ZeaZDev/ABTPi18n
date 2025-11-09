@@ -23,3 +23,10 @@
 - เปิด Rate Limit /auth และ /exchange/keys
 - ใช้ JWT สำหรับ Session (ลงนามด้วย Private Key)
 - เพิ่ม Database Row-Level Encryption (เสริมในอนาคต)
+
+## Phase 3: OAuth & Authentication Security
+- **OAuth State Validation**: ตรวจสอบ state parameter เพื่อป้องกัน CSRF
+- **Token Storage**: เก็บ OAuth tokens ใน httpOnly cookies เท่านั้น
+- **Redirect URI Validation**: ตรวจสอบ redirect URI ให้ตรงกับที่ลงทะเบียนไว้
+- **Token Refresh**: ใช้ refresh token mechanism สำหรับ session ที่ยาวนาน
+- **Telegram Security**: ตรวจสอบ webhook signature และไม่ส่งข้อมูลสำคัญผ่าน Telegram

@@ -57,11 +57,12 @@ async def google_login(request: GoogleLoginRequest, response: Response):
     # Generate session token
     session_token = oauth_service.generate_session_token()
     
-    # Set secure cookie (in production, use httpOnly and secure flags)
+    # Set secure cookie with httpOnly, secure, and samesite flags
     response.set_cookie(
         key="session_token",
         value=session_token,
         httponly=True,
+        secure=True,  # Requires HTTPS in production
         max_age=86400 * 7,  # 7 days
         samesite="lax"
     )
@@ -103,11 +104,12 @@ async def google_callback(request: OAuthCallbackRequest, response: Response):
         # Generate session token
         session_token = oauth_service.generate_session_token()
         
-        # Set secure cookie
+        # Set secure cookie with httpOnly, secure, and samesite flags
         response.set_cookie(
             key="session_token",
             value=session_token,
             httponly=True,
+            secure=True,  # Requires HTTPS in production
             max_age=86400 * 7,
             samesite="lax"
         )

@@ -178,7 +178,7 @@ See the [Strategy Development Guide](docs/strategy/STRATEGY_GUIDE.md) for detail
 
 ## 📚 Documentation
 
-All documentation is organized in the [`docs/`](docs/) directory.
+All documentation is organized in the [`docs/`](docs/) directory and is also available on the [**GitHub Wiki**](https://github.com/ZeaZDev/ABTPi18n/wiki) for easier browsing.
 
 ### Core Documentation
 - **[Contributing Guide](docs/guides/CONTRIBUTING.md)** - Development setup and workflow

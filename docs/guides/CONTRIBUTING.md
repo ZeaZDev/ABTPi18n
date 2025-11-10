@@ -207,6 +207,32 @@ docker compose up -d --build
 ### Port Already in Use
 Edit docker-compose.yml to change ports
 
+## Documentation
+
+### Exporting Documentation to Wiki
+
+The project documentation can be exported to the GitHub Wiki for easier navigation and public access:
+
+```bash
+./scripts/export-docs-to-wiki.sh
+```
+
+This script will:
+1. Clone the wiki repository
+2. Copy all documentation files from `docs/` and `tools/` directories
+3. Convert file paths to wiki-compatible page names
+4. Create a Home page with navigation links
+5. Commit and push changes to the wiki
+
+**Note:** The wiki must be initialized first (create at least one page on GitHub).
+
+### Updating Documentation
+
+When updating documentation:
+1. Edit the markdown files in the `docs/` or `tools/` directories
+2. Run the export script to sync changes to the wiki
+3. Commit both the source files and push to trigger wiki update
+
 ## Getting Help
 
 - Check STRATEGY_GUIDE.md for strategy development

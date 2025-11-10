@@ -73,3 +73,6 @@ tools/demo_output/
 tools/test_screenshots/
 tmp/
 package-lock.json
+
+# Wiki clone directory (used by export-docs-to-wiki.sh)
+*.wiki/

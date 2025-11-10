@@ -1,5 +1,5 @@
 # Terms of Use for Auto Bot Trader i18n (ABTPi18n)
-
+ 
 **Last Updated:** [Date]
 
 Please read these Terms of Use ("Terms", "Terms of Use") carefully before using the Auto Bot Trader i18n platform (the "Service") operated by ("us", "we", or "our").

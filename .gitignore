@@ -11,7 +11,8 @@ coverage/
 out/
 build/
 dist/
-
+# Google Drive pulled artifacts
+external/drive_assets/
 # Production
 *.log
 npm-debug.log*
@@ -62,3 +63,31 @@ Thumbs.db
 .turbo
 *.tsbuildinfo
 next-env.d.ts
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.venv/
+venv/
+.env
+.env.*
+.cache/
+dist/
+build/
+coverage/
+htmlcov/
+
+# VCS / OS
+.git/
+.gitignore
+.gitattributes
+.DS_Store
+
+# Prisma engines/cache (ถ้ามี)
+.prisma/

@@ -1,5 +1,5 @@
 {
-  "name": "zeaZdev-abtpro-i18n-monorepo",
+  "name": "zeazdev-abtpro-i18n-monorepo",
   "private": true,
   "version": "1.0.0",
   "description": "Auto Bot Trader Pro i18n Monorepo",
@@ -12,6 +12,9 @@
     "dev:backend": "cd apps/backend && uvicorn main:app --reload --port 8000",
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate"
+  },
+  "prisma": {
+    "schema": "apps/backend/prisma/schema.prisma"
   },
   "devDependencies": {
     "prisma": "5.17.0"

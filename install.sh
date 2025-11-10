@@ -1,59 +1,44 @@
 #!/usr/bin/env bash
-# // ZeaZDev [Installer Automation Script] //
-# // Project: Auto Bot Trader i18n //
-# // Version: 1.0.0 (Omega Scaffolding) //
-# // Author: ZeaZDev Meta-Intelligence (Generated) //
-# // --- DO NOT EDIT HEADER --- //
-
+# Simplified installer with correct service names and schema checks
 set -euo pipefail
 
 echo "[*] ตรวจสอบ Dependencies..."
-
-need_cmd() {
-  command -v "$1" >/dev/null 2>&1 || { echo "Missing command: $1"; exit 1; }
-}
-
-for c in docker docker compose node pnpm python3 git; do
-  need_cmd "$c"
-done
+command -v pnpm >/dev/null || npm i -g pnpm
 
 echo "[*] สร้างไฟล์ .env หากยังไม่มี"
-if [ ! -f .env ]; then
-  cp .env.example .env
-  echo "[*] กำลังตรวจสอบ ENCRYPTION_KEY..."
-  if grep -q "REPLACE_BASE64_32BYTE_KEY" .env; then
-    KEY=$(openssl rand -base64 32)
-    sed -i.bak "s|REPLACE_BASE64_32BYTE_KEY|$KEY|g" .env
-    echo "[*] สร้าง ENCRYPTION_KEY ใหม่เรียบร้อย"
-  fi
-else
-  echo "[*] พบ .env แล้ว"
-fi
+[ -f .env ] || cp .env.example .env
 
 echo "[*] ติดตั้ง pnpm workspaces"
 pnpm install
 
-echo "[*] เรียก prisma generate (Python)"
-if command -v prisma >/dev/null 2>&1; then
-  pnpm prisma generate || true
-else
-  echo "[!] Prisma CLI ไม่พบ ข้าม generate (ให้รันด้วยตนเอง)"
-fi
-
 echo "[*] เปิด Docker Compose"
 docker compose up -d --build
 
-echo "[*] รอกำหนดค่า Postgres 5 วินาที..."
+echo "[*] รอ Postgres 5 วินาที..."
 sleep 5
 
-echo "[*] ตรวจสอบ migrate (ใช้ prisma python หากรองรับ)"
-python3 - <<'PYEOF'
-import os
-print("NOTE: Prisma migrate dev สำหรับ Python ต้องเรียกผ่าน CLI แยก หากใช้ prisma-client-py ลอง 'prisma migrate dev'")
-PYEOF
+SERVICE=backend
+SCHEMA_IN_CONTAINER=${PRISMA_SCHEMA_PATH:-/app/prisma/schema.prisma}
 
-echo "[*] ระบบพร้อมใช้งาน:"
-echo "Frontend: http://localhost:3000/en/dashboard"
-echo "Backend:  http://localhost:8000/docs"
+if docker compose ps --services | grep -qx "$SERVICE"; then
+  if [ -f apps/backend/prisma/schema.prisma ]; then
+    if docker compose exec -T "$SERVICE" sh -lc "test -f '${SCHEMA_IN_CONTAINER}'"; then
+      echo "[*] Generate Prisma client (python) inside container"
+      docker compose exec -T "$SERVICE" sh -lc "prisma generate --schema '${SCHEMA_IN_CONTAINER}'" || echo "แจ้งเตือน: prisma generate ไม่สำเร็จ"
+    else
+      echo "(-) ข้าม generate เพราะไม่มี ${SCHEMA_IN_CONTAINER}"
+    fi
+  else
+    echo "(-) ข้าม generate เพราะไม่มี apps/backend/prisma/schema.prisma"
+  fi
+else
+  echo "(-) Service \"$SERVICE\" is not running"
+fi
 
+echo "[*] แจ้งเตือน migrate (Python prisma)"
+echo "NOTE: หากใช้ prisma-client-py สำหรับ migrations ให้รัน 'prisma migrate dev' ด้วยตนเอง (CLI ยังไม่ถูกรวมในสคริปต์)"
+
+echo "[*] ระบุมพร้อทใช้งาน:"
+echo "Frontend: https://app.abtpi18n.com:3000/en/dashboard"
+echo "Backend:  https://app.abtpi18n.com:8000/docs"
 echo "[*] เสร็จสิ้น"

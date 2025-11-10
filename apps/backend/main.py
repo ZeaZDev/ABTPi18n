@@ -32,12 +32,14 @@ from src.services.audit_middleware import AuditMiddleware
 from typing import Optional
 from prometheus_client import make_asgi_app
 from prometheus_fastapi_instrumentator import Instrumentator
+from logging import getLogger
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 ENCRYPTION_KEY = os.getenv("ENCRYPTION_KEY")
 
 app = FastAPI(title="ZeaZDev-ABTPro-i18n Backend", version="1.0.0")
 prisma = Prisma()
+logger = getLogger(__name__)
 
 origins = {
     "http://localhost:3000",
@@ -96,7 +98,13 @@ async def health():
         try:
             await prisma.connect()
         except Exception as e:
-            return {"status": "degraded", "error": str(e)}
+            # Do not expose internal error details to clients
+            logger.warning(f"DB connect failed in health check: {e.__class__.__name__}")
+            return {
+                "status": "degraded",
+                "component": "database",
+                "code": "DB_CONNECT_FAILED",
+            }
     return {"status": "ok"}
 
 @app.post("/auth/login")

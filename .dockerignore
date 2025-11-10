@@ -1,0 +1,14 @@
+# Keep build context small but DO NOT exclude app code
+.git
+__pycache__/
+*.py[cod]
+*.log
+.venv/
+.env
+node_modules/
+dist/
+build/
+patch_backups_*/
+pytest_cache/
+.mypy_cache/
+# DO NOT add lines that exclude: apps/, src/

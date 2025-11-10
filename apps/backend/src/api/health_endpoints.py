@@ -9,6 +9,8 @@ from datetime import datetime
 from prisma import Prisma
 import redis
 import psutil
+from src.utils.database import get_db_connection, time_database_operation
+from src.utils.exceptions import raise_internal_error
 
 router = APIRouter()
 
@@ -34,22 +36,16 @@ async def detailed_health_check():
     
     # Check database
     try:
-        prisma = Prisma()
-        await prisma.connect()
-        
-        # Simple query to verify connection
-        start_time = datetime.utcnow()
-        await prisma.user.count()
-        end_time = datetime.utcnow()
-        
-        response_time = (end_time - start_time).total_seconds() * 1000
-        
-        components["database"] = {
-            "status": "healthy",
-            "responseTime": round(response_time, 2)
-        }
-        
-        await prisma.disconnect()
+        async with get_db_connection() as prisma:
+            # Time the database query
+            timing_result = await time_database_operation(
+                lambda: prisma.user.count()
+            )
+            
+            components["database"] = {
+                "status": "healthy",
+                "responseTime": timing_result["responseTime"]
+            }
     except Exception as e:
         components["database"] = {
             "status": "unhealthy",
@@ -109,30 +105,26 @@ async def database_health_check():
     Tests database connectivity and basic operations
     """
     try:
-        prisma = Prisma()
-        await prisma.connect()
-        
-        # Test read
-        start_time = datetime.utcnow()
-        user_count = await prisma.user.count()
-        end_time = datetime.utcnow()
-        
-        read_time = (end_time - start_time).total_seconds() * 1000
-        
-        # Get database info
-        result = await prisma.query_raw('SELECT version();')
-        db_version = result[0]['version'] if result else "Unknown"
-        
-        await prisma.disconnect()
-        
-        return {
-            "status": "healthy",
-            "connection": "established",
-            "responseTime": round(read_time, 2),
-            "recordCount": user_count,
-            "version": db_version,
-            "timestamp": datetime.utcnow().isoformat()
-        }
+        async with get_db_connection() as prisma:
+            # Time the database query
+            timing_result = await time_database_operation(
+                lambda: prisma.user.count()
+            )
+            user_count = timing_result["result"]
+            read_time = timing_result["responseTime"]
+            
+            # Get database info
+            result = await prisma.query_raw('SELECT version();')
+            db_version = result[0]['version'] if result else "Unknown"
+            
+            return {
+                "status": "healthy",
+                "connection": "established",
+                "responseTime": read_time,
+                "recordCount": user_count,
+                "version": db_version,
+                "timestamp": datetime.utcnow().isoformat()
+            }
     except Exception as e:
         raise HTTPException(
             status_code=503,

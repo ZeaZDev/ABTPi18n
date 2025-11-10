@@ -4,11 +4,13 @@
 // Author: ZeaZDev Meta-Intelligence (Generated) //
 // --- DO NOT EDIT HEADER --- //"""
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 from typing import Optional, Dict, Any
 from datetime import datetime
 from src.backtesting.backtest_service import BacktestService
+from src.utils.dependencies import get_current_user_id
+from src.utils.exceptions import handle_service_error
 
 router = APIRouter()
 backtest_service = BacktestService()
@@ -39,7 +41,7 @@ class StopPaperTradingRequest(BaseModel):
 @router.post("/run")
 async def create_backtest(
     request: BacktestRequest,
-    user_id: int = 1  # TODO: Get from auth token
+    user_id: int = Depends(get_current_user_id)
 ):
     """Create and run a backtest"""
     try:
@@ -63,15 +65,13 @@ async def create_backtest(
         result = await backtest_service.run_backtest(backtest["backtest_id"])
         
         return result
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        handle_service_error(e)
 
 
 @router.get("/runs")
 async def list_backtests(
-    user_id: int = 1,  # TODO: Get from auth token
+    user_id: int = Depends(get_current_user_id),
     limit: int = 50
 ):
     """List all backtest runs"""
@@ -79,7 +79,7 @@ async def list_backtests(
         backtests = await backtest_service.list_user_backtests(user_id, limit)
         return {"backtests": backtests, "count": len(backtests)}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        handle_service_error(e)
 
 
 @router.get("/runs/{run_id}")
@@ -88,25 +88,21 @@ async def get_backtest_results(run_id: int):
     try:
         results = await backtest_service.get_backtest_results(run_id)
         return results
-    except ValueError as e:
-        raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        handle_service_error(e)
 
 
 @router.delete("/runs/{run_id}")
 async def delete_backtest(
     run_id: int,
-    user_id: int = 1  # TODO: Get from auth token
+    user_id: int = Depends(get_current_user_id)
 ):
     """Delete a backtest run"""
     try:
         result = await backtest_service.delete_backtest(run_id, user_id)
         return result
-    except ValueError as e:
-        raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        handle_service_error(e)
 
 
 # Paper Trading Endpoints
@@ -114,7 +110,7 @@ async def delete_backtest(
 @router.post("/paper/start")
 async def start_paper_trading(
     request: PaperTradingRequest,
-    user_id: int = 1  # TODO: Get from auth token
+    user_id: int = Depends(get_current_user_id)
 ):
     """Start a paper trading session"""
     try:
@@ -128,22 +124,20 @@ async def start_paper_trading(
         )
         return session
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        handle_service_error(e)
 
 
 @router.post("/paper/stop")
 async def stop_paper_trading(
     request: StopPaperTradingRequest,
-    user_id: int = 1  # TODO: Get from auth token
+    user_id: int = Depends(get_current_user_id)
 ):
     """Stop a paper trading session"""
     try:
         result = await backtest_service.stop_paper_trading(request.session_id, user_id)
         return result
-    except ValueError as e:
-        raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        handle_service_error(e)
 
 
 @router.get("/paper/status/{session_id}")
@@ -152,15 +146,13 @@ async def get_paper_trading_status(session_id: int):
     try:
         status = await backtest_service.get_paper_trading_status(session_id)
         return status
-    except ValueError as e:
-        raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        handle_service_error(e)
 
 
 @router.get("/paper/sessions")
 async def list_paper_trading_sessions(
-    user_id: int = 1,  # TODO: Get from auth token
+    user_id: int = Depends(get_current_user_id),
     active_only: bool = False
 ):
     """List paper trading sessions"""
@@ -168,4 +160,4 @@ async def list_paper_trading_sessions(
         sessions = await backtest_service.list_paper_trading_sessions(user_id, active_only)
         return {"sessions": sessions, "count": len(sessions)}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        handle_service_error(e)

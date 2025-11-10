@@ -3,10 +3,11 @@
 // Version: 1.0.0 (Phase 3) //
 // Author: ZeaZDev Meta-Intelligence (Generated) //
 // --- DO NOT EDIT HEADER --- //"""
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from pydantic import BaseModel
 from src.services.telegram_service import TelegramService
 from src.services.notification_service import NotificationService
+from src.utils.exceptions import raise_bad_request
 from typing import Optional
 
 router = APIRouter()
@@ -34,7 +35,7 @@ async def link_telegram(request: LinkTelegramRequest):
     )
     
     if not result["success"]:
-        raise HTTPException(status_code=400, detail=result.get("error", "Failed to link account"))
+        raise_bad_request(result.get("error", "Failed to link account"))
     
     return {
         "status": "LINKED",
@@ -47,7 +48,7 @@ async def unlink_telegram(request: UnlinkTelegramRequest):
     result = await telegram_service.unlink_telegram_account(request.user_id)
     
     if not result["success"]:
-        raise HTTPException(status_code=400, detail=result.get("error", "Failed to unlink account"))
+        raise_bad_request(result.get("error", "Failed to unlink account"))
     
     return {"status": "UNLINKED"}
 
@@ -66,6 +67,6 @@ async def send_test_notification(request: SendTestNotificationRequest):
     )
     
     if not success:
-        raise HTTPException(status_code=400, detail="Failed to send notification. Check Telegram link and preferences.")
+        raise_bad_request("Failed to send notification. Check Telegram link and preferences.")
     
     return {"status": "NOTIFICATION_SENT"}

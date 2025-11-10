@@ -4,10 +4,12 @@
 // Author: ZeaZDev Meta-Intelligence (Generated) //
 // --- DO NOT EDIT HEADER --- //"""
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 from typing import Optional
 from src.services.portfolio_service import PortfolioService
+from src.utils.dependencies import get_current_user_id
+from src.utils.exceptions import handle_service_error
 
 router = APIRouter()
 portfolio_service = PortfolioService()
@@ -21,32 +23,32 @@ class CreateAccountRequest(BaseModel):
 
 @router.get("/summary")
 async def get_portfolio_summary(
-    user_id: int = 1  # TODO: Get from auth token
+    user_id: int = Depends(get_current_user_id)
 ):
     """Get aggregated portfolio summary"""
     try:
         summary = await portfolio_service.get_portfolio_summary(user_id)
         return summary
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        handle_service_error(e)
 
 
 @router.get("/accounts")
 async def list_accounts(
-    user_id: int = 1  # TODO: Get from auth token
+    user_id: int = Depends(get_current_user_id)
 ):
     """List all accounts"""
     try:
         accounts = await portfolio_service.list_accounts(user_id)
         return {"accounts": accounts, "count": len(accounts)}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        handle_service_error(e)
 
 
 @router.post("/accounts")
 async def create_account(
     request: CreateAccountRequest,
-    user_id: int = 1  # TODO: Get from auth token
+    user_id: int = Depends(get_current_user_id)
 ):
     """Create a new account"""
     try:
@@ -57,25 +59,21 @@ async def create_account(
             group=request.group
         )
         return account
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        handle_service_error(e)
 
 
 @router.delete("/accounts/{account_id}")
 async def delete_account(
     account_id: int,
-    user_id: int = 1  # TODO: Get from auth token
+    user_id: int = Depends(get_current_user_id)
 ):
     """Delete an account"""
     try:
         result = await portfolio_service.delete_account(account_id, user_id)
         return result
-    except ValueError as e:
-        raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        handle_service_error(e)
 
 
 @router.post("/accounts/{account_id}/sync")
@@ -85,7 +83,7 @@ async def sync_account_positions(account_id: int):
         positions = await portfolio_service.sync_account_positions(account_id)
         return {"positions": positions, "count": len(positions)}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        handle_service_error(e)
 
 
 @router.get("/accounts/{account_id}/performance")
@@ -95,4 +93,4 @@ async def get_account_performance(account_id: int):
         performance = await portfolio_service.get_account_performance(account_id)
         return performance
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        handle_service_error(e)

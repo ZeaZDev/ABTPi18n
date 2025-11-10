@@ -7,6 +7,7 @@ from fastapi import APIRouter, HTTPException, Response, Request
 from pydantic import BaseModel
 from src.auth.oauth_service import OAuthService
 from src.auth.google_provider import GoogleOAuthProvider
+from src.utils.auth import create_session_response
 import secrets
 
 router = APIRouter()
@@ -54,25 +55,16 @@ async def google_login(request: GoogleLoginRequest, response: Response):
         profile_picture=user_info.get("picture")
     )
     
-    # Generate session token
+    # Generate session token and create response
     session_token = oauth_service.generate_session_token()
     
-    # Set secure cookie with httpOnly, secure, and samesite flags
-    response.set_cookie(
-        key="session_token",
-        value=session_token,
-        httponly=True,
-        secure=True,  # Requires HTTPS in production
-        max_age=86400 * 7,  # 7 days
-        samesite="lax"
+    return create_session_response(
+        user_id=user.id,
+        email=user.email,
+        profile_picture=user.profilePicture,
+        session_token=session_token,
+        response=response
     )
-    
-    return {
-        "user_id": user.id,
-        "email": user.email,
-        "profile_picture": user.profilePicture,
-        "status": "LOGIN_SUCCESS"
-    }
 
 @router.post("/google/callback")
 async def google_callback(request: OAuthCallbackRequest, response: Response):
@@ -101,25 +93,16 @@ async def google_callback(request: OAuthCallbackRequest, response: Response):
             profile_picture=user_info.get("picture")
         )
         
-        # Generate session token
+        # Generate session token and create response
         session_token = oauth_service.generate_session_token()
         
-        # Set secure cookie with httpOnly, secure, and samesite flags
-        response.set_cookie(
-            key="session_token",
-            value=session_token,
-            httponly=True,
-            secure=True,  # Requires HTTPS in production
-            max_age=86400 * 7,
-            samesite="lax"
+        return create_session_response(
+            user_id=user.id,
+            email=user.email,
+            profile_picture=user.profilePicture,
+            session_token=session_token,
+            response=response
         )
-        
-        return {
-            "user_id": user.id,
-            "email": user.email,
-            "profile_picture": user.profilePicture,
-            "status": "LOGIN_SUCCESS"
-        }
         
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"OAuth callback failed: {str(e)}")

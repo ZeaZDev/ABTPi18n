@@ -3,11 +3,12 @@
 // Version: 1.0.0 (Phase 5) //
 // Author: ZeaZDev Meta-Intelligence (Generated) //
 // --- DO NOT EDIT HEADER --- //"""
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Query
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
 from src.services.audit_service import AuditService
+from src.utils.exceptions import raise_bad_request, raise_not_found
 import csv
 import io
 
@@ -78,7 +79,7 @@ async def get_audit_log(log_id: int):
     log = await audit_service.get_log_by_id(log_id)
     
     if not log:
-        raise HTTPException(status_code=404, detail="Audit log not found")
+        raise_not_found("Audit log not found")
     
     return log
 
@@ -101,13 +102,13 @@ async def get_audit_stats(
         try:
             start_dt = datetime.fromisoformat(startDate.replace('Z', '+00:00'))
         except ValueError:
-            raise HTTPException(status_code=400, detail="Invalid startDate format. Use ISO 8601.")
+            raise_bad_request("Invalid startDate format. Use ISO 8601.")
     
     if endDate:
         try:
             end_dt = datetime.fromisoformat(endDate.replace('Z', '+00:00'))
         except ValueError:
-            raise HTTPException(status_code=400, detail="Invalid endDate format. Use ISO 8601.")
+            raise_bad_request("Invalid endDate format. Use ISO 8601.")
     
     stats = await audit_service.get_stats(
         start_date=start_dt,
@@ -136,7 +137,7 @@ async def export_audit_logs(
     - **endDate**: End of date range
     """
     if format not in ["csv", "json"]:
-        raise HTTPException(status_code=400, detail="Format must be 'csv' or 'json'")
+        raise_bad_request("Format must be 'csv' or 'json'")
     
     # Parse dates
     start_dt = None
@@ -146,13 +147,13 @@ async def export_audit_logs(
         try:
             start_dt = datetime.fromisoformat(startDate.replace('Z', '+00:00'))
         except ValueError:
-            raise HTTPException(status_code=400, detail="Invalid startDate format. Use ISO 8601.")
+            raise_bad_request("Invalid startDate format. Use ISO 8601.")
     
     if endDate:
         try:
             end_dt = datetime.fromisoformat(endDate.replace('Z', '+00:00'))
         except ValueError:
-            raise HTTPException(status_code=400, detail="Invalid endDate format. Use ISO 8601.")
+            raise_bad_request("Invalid endDate format. Use ISO 8601.")
     
     # Get all logs (no pagination for export)
     result = await audit_service.get_logs(

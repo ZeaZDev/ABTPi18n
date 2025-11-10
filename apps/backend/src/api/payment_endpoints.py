@@ -4,10 +4,12 @@
 // Author: ZeaZDev Meta-Intelligence (Generated) //
 // --- DO NOT EDIT HEADER --- //"""
 
-from fastapi import APIRouter, HTTPException, Header, Depends
+from fastapi import APIRouter, Header, Depends
 from pydantic import BaseModel
 from typing import Optional
 from src.services.promptpay_service import PromptPayService
+from src.utils.dependencies import get_current_user_id
+from src.utils.exceptions import handle_service_error
 
 router = APIRouter()
 promptpay_service = PromptPayService()
@@ -28,7 +30,7 @@ class WebhookPayload(BaseModel):
 @router.post("/promptpay/create")
 async def create_promptpay_payment(
     request: TopupRequest,
-    user_id: int = 1  # TODO: Get from auth token
+    user_id: int = Depends(get_current_user_id)
 ):
     """Generate PromptPay QR code for payment"""
     try:
@@ -40,7 +42,7 @@ async def create_promptpay_payment(
         )
         return result
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        handle_service_error(e)
 
 
 @router.post("/webhook/promptpay")
@@ -64,24 +66,24 @@ async def promptpay_webhook(
         
         return result
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        handle_service_error(e)
 
 
 @router.get("/wallet")
 async def get_wallet_balance(
-    user_id: int = 1  # TODO: Get from auth token
+    user_id: int = Depends(get_current_user_id)
 ):
     """Get user wallet balance"""
     try:
         balance = await promptpay_service.get_wallet_balance(user_id)
         return balance
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        handle_service_error(e)
 
 
 @router.get("/transactions")
 async def get_transaction_history(
-    user_id: int = 1,  # TODO: Get from auth token
+    user_id: int = Depends(get_current_user_id),
     limit: int = 50,
     offset: int = 0
 ):
@@ -94,4 +96,4 @@ async def get_transaction_history(
         )
         return {"transactions": transactions, "count": len(transactions)}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        handle_service_error(e)

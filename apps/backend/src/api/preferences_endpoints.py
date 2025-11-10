@@ -3,13 +3,12 @@
 // Version: 1.0.0 (Phase 3) //
 // Author: ZeaZDev Meta-Intelligence (Generated) //
 // --- DO NOT EDIT HEADER --- //"""
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from pydantic import BaseModel
-from prisma import Prisma
 from typing import Optional
+from src.utils.database import get_db_connection
 
 router = APIRouter()
-prisma = Prisma()
 
 class UpdatePreferencesRequest(BaseModel):
     user_id: int
@@ -39,72 +38,21 @@ class UpdateNotificationPreferencesRequest(BaseModel):
 @router.get("/preferences/{user_id}")
 async def get_user_preferences(user_id: int):
     """Get user preferences"""
-    await prisma.connect()
-    
-    prefs = await prisma.userpreference.find_first(
-        where={"userId": user_id}
-    )
-    
-    await prisma.disconnect()
-    
-    if not prefs:
-        # Return default preferences
+    async with get_db_connection() as prisma:
+        prefs = await prisma.userpreference.find_first(
+            where={"userId": user_id}
+        )
+        
+        if not prefs:
+            # Return default preferences
+            return {
+                "theme": "auto",
+                "language": "th",
+                "dashboardLayout": "grid",
+                "refreshInterval": 30
+            }
+        
         return {
-            "theme": "auto",
-            "language": "th",
-            "dashboardLayout": "grid",
-            "refreshInterval": 30
-        }
-    
-    return {
-        "theme": prefs.theme,
-        "language": prefs.language,
-        "primaryColor": prefs.primaryColor,
-        "secondaryColor": prefs.secondaryColor,
-        "accentColor": prefs.accentColor,
-        "dashboardLayout": prefs.dashboardLayout,
-        "refreshInterval": prefs.refreshInterval
-    }
-
-@router.put("/preferences")
-async def update_user_preferences(request: UpdatePreferencesRequest):
-    """Update user preferences"""
-    await prisma.connect()
-    
-    # Build update data
-    update_data = {}
-    if request.theme is not None:
-        update_data["theme"] = request.theme
-    if request.language is not None:
-        update_data["language"] = request.language
-    if request.primary_color is not None:
-        update_data["primaryColor"] = request.primary_color
-    if request.secondary_color is not None:
-        update_data["secondaryColor"] = request.secondary_color
-    if request.accent_color is not None:
-        update_data["accentColor"] = request.accent_color
-    if request.dashboard_layout is not None:
-        update_data["dashboardLayout"] = request.dashboard_layout
-    if request.refresh_interval is not None:
-        update_data["refreshInterval"] = request.refresh_interval
-    
-    # Upsert preferences
-    prefs = await prisma.userpreference.upsert(
-        where={"userId": request.user_id},
-        data={
-            "create": {
-                "userId": request.user_id,
-                **update_data
-            },
-            "update": update_data
-        }
-    )
-    
-    await prisma.disconnect()
-    
-    return {
-        "status": "UPDATED",
-        "preferences": {
             "theme": prefs.theme,
             "language": prefs.language,
             "primaryColor": prefs.primaryColor,
@@ -113,114 +61,147 @@ async def update_user_preferences(request: UpdatePreferencesRequest):
             "dashboardLayout": prefs.dashboardLayout,
             "refreshInterval": prefs.refreshInterval
         }
-    }
+
+@router.put("/preferences")
+async def update_user_preferences(request: UpdatePreferencesRequest):
+    """Update user preferences"""
+    async with get_db_connection() as prisma:
+        # Build update data
+        update_data = {}
+        if request.theme is not None:
+            update_data["theme"] = request.theme
+        if request.language is not None:
+            update_data["language"] = request.language
+        if request.primary_color is not None:
+            update_data["primaryColor"] = request.primary_color
+        if request.secondary_color is not None:
+            update_data["secondaryColor"] = request.secondary_color
+        if request.accent_color is not None:
+            update_data["accentColor"] = request.accent_color
+        if request.dashboard_layout is not None:
+            update_data["dashboardLayout"] = request.dashboard_layout
+        if request.refresh_interval is not None:
+            update_data["refreshInterval"] = request.refresh_interval
+        
+        # Upsert preferences
+        prefs = await prisma.userpreference.upsert(
+            where={"userId": request.user_id},
+            data={
+                "create": {
+                    "userId": request.user_id,
+                    **update_data
+                },
+                "update": update_data
+            }
+        )
+        
+        return {
+            "status": "UPDATED",
+            "preferences": {
+                "theme": prefs.theme,
+                "language": prefs.language,
+                "primaryColor": prefs.primaryColor,
+                "secondaryColor": prefs.secondaryColor,
+                "accentColor": prefs.accentColor,
+                "dashboardLayout": prefs.dashboardLayout,
+                "refreshInterval": prefs.refreshInterval
+            }
+        }
 
 @router.patch("/theme")
 async def update_theme(request: UpdateThemeRequest):
     """Update user theme preference"""
-    await prisma.connect()
-    
-    prefs = await prisma.userpreference.upsert(
-        where={"userId": request.user_id},
-        data={
-            "create": {
-                "userId": request.user_id,
-                "theme": request.theme
-            },
-            "update": {
-                "theme": request.theme
+    async with get_db_connection() as prisma:
+        prefs = await prisma.userpreference.upsert(
+            where={"userId": request.user_id},
+            data={
+                "create": {
+                    "userId": request.user_id,
+                    "theme": request.theme
+                },
+                "update": {
+                    "theme": request.theme
+                }
             }
-        }
-    )
-    
-    await prisma.disconnect()
-    
-    return {"status": "UPDATED", "theme": prefs.theme}
+        )
+        
+        return {"status": "UPDATED", "theme": prefs.theme}
 
 @router.patch("/language")
 async def update_language(request: UpdateLanguageRequest):
     """Update user language preference"""
-    await prisma.connect()
-    
-    prefs = await prisma.userpreference.upsert(
-        where={"userId": request.user_id},
-        data={
-            "create": {
-                "userId": request.user_id,
-                "language": request.language
-            },
-            "update": {
-                "language": request.language
+    async with get_db_connection() as prisma:
+        prefs = await prisma.userpreference.upsert(
+            where={"userId": request.user_id},
+            data={
+                "create": {
+                    "userId": request.user_id,
+                    "language": request.language
+                },
+                "update": {
+                    "language": request.language
+                }
             }
-        }
-    )
-    
-    await prisma.disconnect()
-    
-    return {"status": "UPDATED", "language": prefs.language}
+        )
+        
+        return {"status": "UPDATED", "language": prefs.language}
 
 @router.get("/notifications/preferences/{user_id}")
 async def get_notification_preferences(user_id: int):
     """Get notification preferences"""
-    await prisma.connect()
-    
-    prefs = await prisma.notificationpreference.find_first(
-        where={"userId": user_id}
-    )
-    
-    await prisma.disconnect()
-    
-    if not prefs:
+    async with get_db_connection() as prisma:
+        prefs = await prisma.notificationpreference.find_first(
+            where={"userId": user_id}
+        )
+        
+        if not prefs:
+            return {
+                "tradeAlerts": True,
+                "riskAlerts": True,
+                "systemAlerts": True,
+                "dailySummary": True
+            }
+        
         return {
-            "tradeAlerts": True,
-            "riskAlerts": True,
-            "systemAlerts": True,
-            "dailySummary": True
-        }
-    
-    return {
-        "tradeAlerts": prefs.tradeAlerts,
-        "riskAlerts": prefs.riskAlerts,
-        "systemAlerts": prefs.systemAlerts,
-        "dailySummary": prefs.dailySummary
-    }
-
-@router.put("/notifications/preferences")
-async def update_notification_preferences(request: UpdateNotificationPreferencesRequest):
-    """Update notification preferences"""
-    await prisma.connect()
-    
-    # Build update data
-    update_data = {}
-    if request.trade_alerts is not None:
-        update_data["tradeAlerts"] = request.trade_alerts
-    if request.risk_alerts is not None:
-        update_data["riskAlerts"] = request.risk_alerts
-    if request.system_alerts is not None:
-        update_data["systemAlerts"] = request.system_alerts
-    if request.daily_summary is not None:
-        update_data["dailySummary"] = request.daily_summary
-    
-    # Upsert preferences
-    prefs = await prisma.notificationpreference.upsert(
-        where={"userId": request.user_id},
-        data={
-            "create": {
-                "userId": request.user_id,
-                **update_data
-            },
-            "update": update_data
-        }
-    )
-    
-    await prisma.disconnect()
-    
-    return {
-        "status": "UPDATED",
-        "preferences": {
             "tradeAlerts": prefs.tradeAlerts,
             "riskAlerts": prefs.riskAlerts,
             "systemAlerts": prefs.systemAlerts,
             "dailySummary": prefs.dailySummary
         }
-    }
+
+@router.put("/notifications/preferences")
+async def update_notification_preferences(request: UpdateNotificationPreferencesRequest):
+    """Update notification preferences"""
+    async with get_db_connection() as prisma:
+        # Build update data
+        update_data = {}
+        if request.trade_alerts is not None:
+            update_data["tradeAlerts"] = request.trade_alerts
+        if request.risk_alerts is not None:
+            update_data["riskAlerts"] = request.risk_alerts
+        if request.system_alerts is not None:
+            update_data["systemAlerts"] = request.system_alerts
+        if request.daily_summary is not None:
+            update_data["dailySummary"] = request.daily_summary
+        
+        # Upsert preferences
+        prefs = await prisma.notificationpreference.upsert(
+            where={"userId": request.user_id},
+            data={
+                "create": {
+                    "userId": request.user_id,
+                    **update_data
+                },
+                "update": update_data
+            }
+        )
+        
+        return {
+            "status": "UPDATED",
+            "preferences": {
+                "tradeAlerts": prefs.tradeAlerts,
+                "riskAlerts": prefs.riskAlerts,
+                "systemAlerts": prefs.systemAlerts,
+                "dailySummary": prefs.dailySummary
+            }
+        }

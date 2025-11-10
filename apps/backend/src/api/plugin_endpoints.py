@@ -4,10 +4,12 @@
 // Author: ZeaZDev Meta-Intelligence (Generated) //
 // --- DO NOT EDIT HEADER --- //"""
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 from typing import Optional, Dict, Any
 from src.plugins.plugin_loader import PluginLoader
+from src.utils.dependencies import get_current_user_id
+from src.utils.exceptions import handle_service_error
 
 router = APIRouter()
 plugin_loader = PluginLoader()
@@ -36,25 +38,25 @@ async def list_available_plugins(
         
         return {"plugins": plugins, "count": len(plugins)}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        handle_service_error(e)
 
 
 @router.get("/installed")
 async def list_installed_plugins(
-    user_id: int = 1  # TODO: Get from auth token
+    user_id: int = Depends(get_current_user_id)
 ):
     """List user's installed plugins"""
     try:
         plugins = await plugin_loader.get_user_plugins(user_id)
         return {"plugins": plugins, "count": len(plugins)}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        handle_service_error(e)
 
 
 @router.post("/install")
 async def install_plugin(
     request: InstallPluginRequest,
-    user_id: int = 1  # TODO: Get from auth token
+    user_id: int = Depends(get_current_user_id)
 ):
     """Install a plugin for the user"""
     try:
@@ -64,16 +66,14 @@ async def install_plugin(
             config=request.config
         )
         return result
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        handle_service_error(e)
 
 
 @router.delete("/uninstall/{user_plugin_id}")
 async def uninstall_plugin(
     user_plugin_id: int,
-    user_id: int = 1  # TODO: Get from auth token
+    user_id: int = Depends(get_current_user_id)
 ):
     """Uninstall a plugin"""
     try:
@@ -81,7 +81,7 @@ async def uninstall_plugin(
         await plugin_loader.toggle_plugin(user_plugin_id, False)
         return {"success": True, "user_plugin_id": user_plugin_id}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        handle_service_error(e)
 
 
 @router.post("/{user_plugin_id}/toggle")
@@ -94,7 +94,7 @@ async def toggle_plugin(
         result = await plugin_loader.toggle_plugin(user_plugin_id, request.enabled)
         return result
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        handle_service_error(e)
 
 
 @router.get("/discover")
@@ -104,4 +104,4 @@ async def discover_plugins():
         discovered = plugin_loader.discover_plugins()
         return {"plugins": discovered, "count": len(discovered)}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        handle_service_error(e)

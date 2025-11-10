@@ -6,6 +6,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from typing import Optional, Dict, Any, List
 from datetime import datetime
+from src.utils.dependencies import get_optional_user_id
+from src.utils.exceptions import handle_service_error, raise_bad_request
 
 router = APIRouter(prefix="/ml", tags=["ML"])
 
@@ -84,12 +86,12 @@ async def score_signal(request: SignalScoreRequest):
             risk=result['risk']
         )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Scoring failed: {str(e)}")
+        handle_service_error(e)
 
 
 @router.get("/signal/history")
 async def get_signal_history(
-    userId: Optional[int] = None,
+    userId: Optional[int] = Depends(get_optional_user_id),
     limit: int = 50
 ):
     """Get signal scoring history."""
@@ -106,7 +108,7 @@ async def get_signal_history(
 
 @router.get("/signal/stats")
 async def get_signal_stats(
-    userId: Optional[int] = None,
+    userId: Optional[int] = Depends(get_optional_user_id),
     days: int = 30
 ):
     """Get signal scoring statistics."""
@@ -156,7 +158,7 @@ async def predict_volatility(request: VolatilityPredictRequest):
             risk=result['risk']
         )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Prediction failed: {str(e)}")
+        handle_service_error(e)
 
 
 @router.get("/volatility/history")
@@ -247,7 +249,7 @@ async def apply_optimized_params(
 ):
     """Apply optimized parameters to strategy."""
     if not confirm:
-        raise HTTPException(400, "Confirmation required")
+        raise_bad_request("Confirmation required")
     
     return {
         "status": "success",

@@ -27,5 +27,9 @@
   "notifications.risk_alerts": "Risk Alerts",
   "notifications.system_alerts": "System Alerts",
   "notifications.daily_summary": "Daily Summary",
-  "language.select": "Select Language"
+  "language.select": "Select Language",
+  "menu.dashboard": "Dashboard",
+  "menu.settings": "Settings",
+  "menu.login": "Login",
+  "menu.logout": "Logout"
 }

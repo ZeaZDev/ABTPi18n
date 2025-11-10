@@ -27,5 +27,9 @@
   "notifications.risk_alerts": "リスクアラート",
   "notifications.system_alerts": "システムアラート",
   "notifications.daily_summary": "日次サマリー",
-  "language.select": "言語を選択"
+  "language.select": "言語を選択",
+  "menu.dashboard": "ダッシュボード",
+  "menu.settings": "設定",
+  "menu.login": "ログイン",
+  "menu.logout": "ログアウト"
 }

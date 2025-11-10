@@ -27,5 +27,9 @@
   "notifications.risk_alerts": "风险提醒",
   "notifications.system_alerts": "系统提醒",
   "notifications.daily_summary": "每日摘要",
-  "language.select": "选择语言"
+  "language.select": "选择语言",
+  "menu.dashboard": "仪表板",
+  "menu.settings": "设置",
+  "menu.login": "登录",
+  "menu.logout": "退出登录"
 }

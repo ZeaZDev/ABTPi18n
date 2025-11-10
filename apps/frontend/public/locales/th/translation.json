@@ -27,5 +27,9 @@
   "notifications.risk_alerts": "แจ้งเตือนความเสี่ยง",
   "notifications.system_alerts": "แจ้งเตือนระบบ",
   "notifications.daily_summary": "สรุปรายวัน",
-  "language.select": "เลือกภาษา"
+  "language.select": "เลือกภาษา",
+  "menu.dashboard": "แดชบอร์ด",
+  "menu.settings": "ตั้งค่า",
+  "menu.login": "เข้าสู่ระบบ",
+  "menu.logout": "ออกจากระบบ"
 }

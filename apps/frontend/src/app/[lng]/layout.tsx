@@ -7,6 +7,7 @@
 
 import { ThemeProvider } from '../../contexts/ThemeContext';
 import { LanguageSelector } from '../../components/LanguageSelector';
+import { Navigation } from '../../components/Navigation';
 
 export default function LangLayout({
   children,
@@ -18,6 +19,7 @@ export default function LangLayout({
   return (
     <ThemeProvider>
       <div lang={params.lng}>
+        <Navigation lng={params.lng} />
         <div style={{ 
           position: 'fixed', 
           top: '20px', 
@@ -29,7 +31,9 @@ export default function LangLayout({
         }}>
           <LanguageSelector />
         </div>
-        {children}
+        <div style={{ paddingTop: '64px' }}>
+          {children}
+        </div>
       </div>
     </ThemeProvider>
   )

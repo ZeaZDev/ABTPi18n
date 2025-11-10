@@ -71,3 +71,5 @@ screenshots/
 tools/screenshots/
 tools/demo_output/
 tools/test_screenshots/
+tmp/
+package-lock.json

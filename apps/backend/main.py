@@ -30,6 +30,10 @@ from src.api.health_endpoints import router as health_router
 
 # Phase 6 routers
 from src.api.ml_endpoints import router as ml_router
+
+# TradingView integration
+from src.api.tradingview_endpoints import router as tradingview_router
+
 from src.security.crypto_service import encrypt_data
 from src.trading.strategy_interface import StrategyRegistry
 
@@ -185,3 +189,5 @@ app.include_router(secrets_router, prefix="/secrets", tags=["Secret Rotation"])
 # app.include_router(health_router, prefix="/health", tags=["Health & Monitoring"])  # optional alternative health router
 # Phase 6 routes
 app.include_router(ml_router, tags=["ML & Intelligence"])
+# TradingView integration
+app.include_router(tradingview_router, prefix="/tradingview", tags=["TradingView"])

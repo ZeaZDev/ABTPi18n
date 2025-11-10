@@ -388,3 +388,24 @@ model VolatilityPrediction {
   @@index([symbol, createdAt])
   @@index([createdAt])
 }
+
+// TradingView Integration Model
+
+model TradingViewAlert {
+  id         Int       @id @default(autoincrement())
+  ticker     String
+  exchange   String    @default("binance")
+  action     String    // BUY, SELL, CLOSE, HOLD
+  price      Float?
+  strategy   String?
+  interval   String?
+  volume     Float?
+  message    String?
+  rawPayload String?   // JSON of complete payload
+  receivedAt DateTime  @default(now())
+  processed  Boolean   @default(false)
+  
+  @@index([ticker, receivedAt])
+  @@index([action])
+  @@index([receivedAt])
+}

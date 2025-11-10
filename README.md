@@ -34,6 +34,7 @@ ABTPro i18n is a comprehensive automated trading platform designed for professio
 - **FastAPI Backend** with Celery worker loops for distributed task execution
 - **Next.js Frontend** with App Router and react-i18next for seamless i18n
 - **Strategy Engine** with plug-in architecture (includes RSI Cross, Mean Reversion, Breakout, VWAP)
+- **TradingView Integration** with webhook support for external alerts and strategies
 - **Risk Management** with max drawdown tracking and circuit breakers
 - **Real-time Market Data** via WebSocket streaming
 
@@ -188,6 +189,7 @@ All documentation is organized in the [`docs/`](docs/) directory.
 ### Setup & Configuration
 - [GitHub Setup](docs/setup/GITHUB-SETUP.md) - Configuring GitHub Secrets
 - [Platform Requirements](docs/setup/INSTALLER_PLATFORM_REQUIREMENTS.md) - System requirements
+- [TradingView Integration](docs/integrations/TRADINGVIEW_INTEGRATION.md) - Connect TradingView alerts
 
 ### Strategy Development & DR
 - [Strategy Guide](docs/strategy/STRATEGY_GUIDE.md) - Building trading strategies

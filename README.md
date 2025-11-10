@@ -2,7 +2,7 @@
 
 <div align="center">
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.0.1-blue.svg)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/)
 [![Node](https://img.shields.io/badge/node-18+-green.svg)](https://nodejs.org/)
@@ -223,7 +223,7 @@ For detailed security information, see [SECURITY.md](docs/guides/SECURITY.md).
 
 ## 🚢 Releases
 
-**Current Version**: 1.0.0 - [View Release Notes](CHANGELOG.md)
+**Current Version**: 1.0.1 - [View Release Notes](CHANGELOG.md)
 
 ### Creating a New Release
 

@@ -1,6 +1,6 @@
 """// ZeaZDev [Backend FastAPI Entrypoint] //
 // Project: Auto Bot Trader i18n //
-// Version: 1.0.0 (Phase 6) //
+// Version: 1.0.1 (Updated Dependencies) //
 // Author: ZeaZDev Meta-Intelligence (Generated) //
 // --- DO NOT EDIT HEADER --- //"""
 
@@ -48,7 +48,7 @@ ENCRYPTION_KEY = os.getenv("ENCRYPTION_KEY")
 
 logger = getLogger(__name__)
 
-app = FastAPI(title="ZeaZDev-ABTPro-i18n Backend", version="1.0.0")
+app = FastAPI(title="ZeaZDev-ABTPro-i18n Backend", version="1.0.1")
 prisma = Prisma()
 
 origins = {

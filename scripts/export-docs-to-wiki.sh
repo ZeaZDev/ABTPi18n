@@ -60,8 +60,11 @@ convert_to_wiki_name() {
 # Function to copy and convert markdown file
 copy_doc_file() {
     local src_file="$1"
-    local wiki_name="$(convert_to_wiki_name "$src_file")"
-    local dest_file="${wiki_name}.md"
+    local wiki_name
+    local dest_file
+    
+    wiki_name="$(convert_to_wiki_name "$src_file")"
+    dest_file="${wiki_name}.md"
     
     echo "  Copying: $src_file -> $dest_file"
     
@@ -172,14 +175,14 @@ echo -e "${GREEN}Copying documentation files...${NC}"
 
 # Find and copy all .md files from docs/ directory
 find "$REPO_ROOT/docs" -name "*.md" -type f | while read -r file; do
-    relative_path="${file#$REPO_ROOT/}"
+    relative_path="${file#"$REPO_ROOT"/}"
     copy_doc_file "$relative_path"
 done
 
 # Copy tools documentation
 echo -e "${GREEN}Copying tools documentation...${NC}"
 find "$REPO_ROOT/tools" -name "*.md" -type f | while read -r file; do
-    relative_path="${file#$REPO_ROOT/}"
+    relative_path="${file#"$REPO_ROOT"/}"
     copy_doc_file "$relative_path"
 done
 

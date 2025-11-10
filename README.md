@@ -195,6 +195,9 @@ All documentation is organized in the [`docs/`](docs/) directory.
 - [Strategy Guide](docs/strategy/STRATEGY_GUIDE.md) - Building trading strategies
 - [DR/Failover Strategy](docs/strategy/DR_FAILOVER_STRATEGY.md) - Disaster recovery planning
 
+### Tools & Utilities
+- **[Picture Overview Program](tools/README_SCREENSHOTS.md)** - Automated screenshot capture for all pages across all languages
+
 ### Phase Documentation
 - **Phase 1** (Foundation): [Guide](docs/phases/phase1/PHASE1_GUIDE.md) | [Summary](docs/phases/phase1/PHASE1_SUMMARY.md) | [Implementation](docs/phases/phase1/PHASE1_IMPLEMENTATION_SUMMARY.md)
 - **Phase 2** (Strategy Engine): [Guide](docs/phases/phase2/PHASE2_GUIDE.md) | [Summary](docs/phases/phase2/PHASE2_SUMMARY.md) | [Implementation](docs/phases/phase2/PHASE2_IMPLEMENTATION_SUMMARY.md)

@@ -24,5 +24,5 @@ __all__ = [
     "VWAPStrategy",
     "MACDCrossStrategy",
     "MovingAverageCrossStrategy",
-	  "Candle_Pattern_Oscillator_Strategy  # <-- ADD THIS LINE
+    "candle_pattern_oscillator_strategy",  # <-- ADD THIS LINE
 ]

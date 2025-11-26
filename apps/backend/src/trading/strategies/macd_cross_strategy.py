@@ -9,7 +9,6 @@ from .rsi_cross_strategy import RSICrossStrategy
 from .mean_reversion_strategy import MeanReversionStrategy
 from .breakout_strategy import BreakoutStrategy
 from .vwap_strategy import VWAPStrategy
-from .macd_cross_strategy import MACDCrossStrategy  # <-- ADD THIS LINE
 
 __all__ = [
     "RSICrossStrategy",

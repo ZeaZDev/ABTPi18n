@@ -1,6 +1,6 @@
 """Reinforcement learning strategy tuning module."""
 
-from .tuner import StrategyTuner
 from .environment import TradingEnvironment
+from .tuner import StrategyTuner
 
-__all__ = ['StrategyTuner', 'TradingEnvironment']
+__all__ = ["StrategyTuner", "TradingEnvironment"]

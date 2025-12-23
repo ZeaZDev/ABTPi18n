@@ -3,8 +3,10 @@
 // Version: 1.0.0 (Omega Scaffolding) //
 // Author: ZeaZDev Meta-Intelligence (Generated) //
 // --- DO NOT EDIT HEADER --- //"""
-import os
+
 import base64
+import os
+
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 ENCRYPTION_KEY = os.getenv("ENCRYPTION_KEY")
@@ -15,11 +17,13 @@ _raw_key = base64.b64decode(ENCRYPTION_KEY)
 if len(_raw_key) not in (16, 24, 32):
     raise RuntimeError("ENCRYPTION_KEY must decode to 128/192/256-bit")
 
+
 def encrypt_data(plaintext: str):
     aesgcm = AESGCM(_raw_key)
     iv = os.urandom(12)
     ct = aesgcm.encrypt(iv, plaintext.encode(), None)
     return base64.b64encode(ct).decode(), base64.b64encode(iv).decode()
+
 
 def decrypt_data(ciphertext_b64: str, iv_b64: str):
     aesgcm = AESGCM(_raw_key)

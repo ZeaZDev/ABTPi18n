@@ -4,4 +4,4 @@
 // Author: ZeaZDev Meta-Intelligence (Generated) //
 // --- DO NOT EDIT HEADER --- //"""
 
-__all__ = ['strategy_base', 'strategy_registry', 'strategy_autoload']
+__all__ = ["strategy_base", "strategy_registry", "strategy_autoload"]

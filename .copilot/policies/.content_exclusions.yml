@@ -1,0 +1,6 @@
+# .copilot/policies/content_exclusions.yml
+exclude:
+- pattern: '**/*.pem'
+- pattern: '**/*.key'
+- pattern: '**/secrets*'
+- pattern: '**/*.env'

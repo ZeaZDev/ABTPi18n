@@ -1,0 +1,19 @@
+name: MetaUltra CI
+
+on:
+  pull_request:
+  push:
+    paths:
+      - 'docs/metaultra/**'
+      - 'scripts/**'
+      - 'tools/metaultra/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run preview
+        run: bash scripts/zeaz_meta_installer.sh --preview
+      - name: Validate generated files
+        run: bash scripts/validate-metaultra.sh

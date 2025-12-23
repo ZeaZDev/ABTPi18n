@@ -9,7 +9,9 @@ Welcome to the Auto Bot Trader Pro (ABTPro) i18n documentation. This directory c
 - [Installation Guide](setup/INSTALLER_PLATFORM_REQUIREMENTS.md) - Platform requirements
 - [GitHub Setup](setup/GITHUB-SETUP.md) - GitHub configuration
 - [Contributing Guide](guides/CONTRIBUTING.md) - Development setup and workflow
-
+### MetaUltra Deep Dive
+- [MetaUltra Index](metaultra/_index.md) - Ultra-high-level deep-dive docs, generator & examples
+- [MetaUltra Overview](metaultra/overview.md) - Purpose, scope, and quick start instructions
 ### Security & Architecture
 - [Security Model](guides/SECURITY.md) - Encryption and security practices
 - [Roadmap](guides/ROADMAP.md) - Project phases and progress

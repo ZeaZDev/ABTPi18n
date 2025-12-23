@@ -1,54 +1,52 @@
 """// ZeaZDev [Backend FastAPI Entrypoint] //
 // Project: Auto Bot Trader i18n //
-// Version: 1.0.0 (Phase 6) //
+// Version: 1.0.1 (Updated Dependencies) //
 // Author: ZeaZDev Meta-Intelligence (Generated) //
 // --- DO NOT EDIT HEADER --- //"""
 
 import os
-from logging import getLogger
-from fastapi import FastAPI, Depends, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from prisma import Prisma
 from datetime import datetime
-from src.api.bot_endpoints import router as bot_router
-from src.api.auth_endpoints import router as auth_router
-from src.api.telegram_endpoints import router as telegram_router
-from src.api.preferences_endpoints import router as preferences_router
+from logging import getLogger
+from typing import Optional
 
-# Phase 4 routers
-from src.api.payment_endpoints import router as payment_router
-from src.api.rental_endpoints import router as rental_router
-from src.api.plugin_endpoints import router as plugin_router
-from src.api.portfolio_endpoints import router as portfolio_router
-from src.api.backtest_endpoints import router as backtest_router
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from prisma import Prisma
+from prometheus_fastapi_instrumentator import Instrumentator
+from pydantic import BaseModel
 
 # Phase 5 routers
 from src.api.audit_endpoints import router as audit_router
-from src.api.secret_rotation_endpoints import router as secrets_router
-from src.api.health_endpoints import router as health_router
+from src.api.auth_endpoints import router as auth_router
+from src.api.backtest_endpoints import router as backtest_router
+from src.api.bot_endpoints import router as bot_router
 
 # Phase 6 routers
 from src.api.ml_endpoints import router as ml_router
 
+# Phase 4 routers
+from src.api.payment_endpoints import router as payment_router
+from src.api.plugin_endpoints import router as plugin_router
+from src.api.portfolio_endpoints import router as portfolio_router
+from src.api.preferences_endpoints import router as preferences_router
+from src.api.rental_endpoints import router as rental_router
+from src.api.secret_rotation_endpoints import router as secrets_router
+from src.api.telegram_endpoints import router as telegram_router
+
 # TradingView integration
 from src.api.tradingview_endpoints import router as tradingview_router
-
 from src.security.crypto_service import encrypt_data
-from src.trading.strategy_interface import StrategyRegistry
 
 # Phase 5 middleware
 from src.services.audit_middleware import AuditMiddleware
-from typing import Optional
-from prometheus_client import make_asgi_app
-from prometheus_fastapi_instrumentator import Instrumentator
+from src.trading.strategy_interface import StrategyRegistry
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 ENCRYPTION_KEY = os.getenv("ENCRYPTION_KEY")
 
 logger = getLogger(__name__)
 
-app = FastAPI(title="ZeaZDev-ABTPro-i18n Backend", version="1.0.0")
+app = FastAPI(title="ZeaZDev-ABTPro-i18n Backend", version="1.0.1")
 prisma = Prisma()
 
 origins = {
@@ -186,7 +184,8 @@ app.include_router(
 # Phase 5 routes
 app.include_router(audit_router, prefix="/audit", tags=["Audit Trail"])
 app.include_router(secrets_router, prefix="/secrets", tags=["Secret Rotation"])
-# app.include_router(health_router, prefix="/health", tags=["Health & Monitoring"])  # optional alternative health router
+# Optional alternative health router:
+# app.include_router(health_router, prefix="/health", tags=["Health & Monitoring"])
 # Phase 6 routes
 app.include_router(ml_router, tags=["ML & Intelligence"])
 # TradingView integration

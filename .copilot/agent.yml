@@ -1,0 +1,43 @@
+# agent.yml — Copilot Custom Agent manifest (production-grade)
+name: omega-copilot-agent-abtpi18n
+description: >-
+Omega Ultimate Enterprise DevOps coding agent tailored for the ZeaZDev/ABTPi18n
+repository. Production-grade: strict repo context, security-aware, no-demo, no-simplify.
+version: 1.0.0
+entrypoint:
+- type: prompt_file
+path: .copilot/agent/prompts/entrypoint.md
+skillsets:
+- name: code-review
+description: Automated PR reviewer: lint, security, tests, architecture
+- name: implement-feature
+description: Generates production-ready feature code, tests, docs, and CI changes
+- name: refactor-clean
+description: Non-destructive refactors with unit tests and migration plans
+context:
+repository:
+- allow: ZeaZDev/ABTPi18n
+- index: true
+files:
+- include: "**/*.js"
+- include: "**/*.ts"
+- include: "**/*.py"
+- include: "**/*.go"
+exclude:
+- "**/node_modules/**"
+- "**/.venv/**"
+- "**/dist/**"
+- "**/.git/**"
+security:
+token_scopes:
+- repo
+- workflow
+- pull_requests
+content_exclusions:
+- pattern: "**/secrets.*"
+reason: "Prevent accidental secrets exposure"
+validate_signatures: true
+mcp_extension: true
+logging:
+level: info
+audit: true

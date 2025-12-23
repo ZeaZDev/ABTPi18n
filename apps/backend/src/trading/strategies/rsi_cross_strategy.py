@@ -3,10 +3,14 @@
 // Version: 1.0.0 (Omega Scaffolding) //
 // Author: ZeaZDev Meta-Intelligence (Generated) //
 // --- DO NOT EDIT HEADER --- //"""
-from typing import Dict, Any
-import pandas as pd
+
+from typing import Any, Dict
+
 import numpy as np
+import pandas as pd
+
 from src.trading.strategy_interface import Strategy, StrategyRegistry
+
 
 class RSICrossStrategy(Strategy):
     name = "RSI_CROSS"
@@ -22,13 +26,15 @@ class RSICrossStrategy(Strategy):
         delta = series.diff().dropna()
         up = delta.clip(lower=0)
         down = -1 * delta.clip(upper=0)
-        ema_up = up.ewm(alpha=1/self.period, adjust=False).mean()
-        ema_down = down.ewm(alpha=1/self.period, adjust=False).mean()
+        ema_up = up.ewm(alpha=1 / self.period, adjust=False).mean()
+        ema_down = down.ewm(alpha=1 / self.period, adjust=False).mean()
         rs = ema_up / ema_down.replace(0, np.nan)
         rsi = 100 - (100 / (1 + rs))
         return rsi.iloc[-1]
 
-    def execute(self, ticker_data: Dict[str, Any], context: Dict[str, Any]) -> Dict[str, Any]:
+    def execute(
+        self, ticker_data: Dict[str, Any], context: Dict[str, Any]
+    ) -> Dict[str, Any]:
         closes = ticker_data.get("closes")
         if not closes or len(closes) < self.period + 5:
             return {"signal": "HOLD", "rsi": None, "reason": "Insufficient data"}
@@ -49,7 +55,8 @@ class RSICrossStrategy(Strategy):
             "signal": signal,
             "rsi": round(float(rsi), 2),
             "confidence": round(float(confidence), 3),
-            "meta": {"overbought": self.overbought, "oversold": self.oversold}
+            "meta": {"overbought": self.overbought, "oversold": self.oversold},
         }
+
 
 StrategyRegistry.register(RSICrossStrategy)

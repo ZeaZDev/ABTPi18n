@@ -1,6 +1,6 @@
 """Volatility prediction module."""
 
-from .predictor import VolatilityPredictor
 from .features import VolatilityFeatures
+from .predictor import VolatilityPredictor
 
-__all__ = ['VolatilityPredictor', 'VolatilityFeatures']
+__all__ = ["VolatilityPredictor", "VolatilityFeatures"]

@@ -3,16 +3,21 @@
 // Version: 1.0.0 (Omega Scaffolding) //
 // Author: ZeaZDev Meta-Intelligence (Generated) //
 // --- DO NOT EDIT HEADER --- //"""
+
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Type
+
 
 class Strategy(ABC):
     name: str
 
     @abstractmethod
-    def execute(self, ticker_data: Dict[str, Any], context: Dict[str, Any]) -> Dict[str, Any]:
+    def execute(
+        self, ticker_data: Dict[str, Any], context: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Return dict including potential 'signal': BUY/SELL/HOLD and 'confidence'."""
         raise NotImplementedError
+
 
 class StrategyRegistry:
     _strategies: Dict[str, Type[Strategy]] = {}

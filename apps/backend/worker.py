@@ -4,16 +4,13 @@
 // Version: 1.0.0 (Omega Scaffolding) //
 // Author: ZeaZDev Meta-Intelligence (Generated) //
 // --- DO NOT EDIT HEADER --- //"""
-import os
+
 from src.worker.celery_app import celery_app
+
 # Import tasks to register them with celery
-import src.worker.tasks
 
 if __name__ == "__main__":
     # Start celery worker
-    celery_app.worker_main([
-        'worker',
-        '--loglevel=info',
-        '--concurrency=2',
-        '--pool=solo'
-    ])
+    celery_app.worker_main(
+        ["worker", "--loglevel=info", "--concurrency=2", "--pool=solo"]
+    )

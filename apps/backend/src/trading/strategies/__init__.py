@@ -5,16 +5,16 @@
 // --- DO NOT EDIT HEADER --- //"""
 
 # Import all strategies to register them
-from .rsi_cross_strategy import RSICrossStrategy
-from .mean_reversion_strategy import MeanReversionStrategy
 from .breakout_strategy import BreakoutStrategy
-from .vwap_strategy import VWAPStrategy
+from .mean_reversion_strategy import MeanReversionStrategy
+from .rsi_cross_strategy import RSICrossStrategy
 from .tradingview_strategy import TradingViewStrategy
+from .vwap_strategy import VWAPStrategy
 
 __all__ = [
     "RSICrossStrategy",
-    "MeanReversionStrategy", 
+    "MeanReversionStrategy",
     "BreakoutStrategy",
     "VWAPStrategy",
-    "TradingViewStrategy"
+    "TradingViewStrategy",
 ]

@@ -3,12 +3,16 @@
 // Version: 1.0.0 (Omega Scaffolding) //
 // Author: ZeaZDev Meta-Intelligence (Generated) //
 // --- DO NOT EDIT HEADER --- //"""
-import ccxt
-from prisma import Prisma
-from src.security.crypto_service import decrypt_data
+
 from typing import Optional
 
+import ccxt
+from prisma import Prisma
+
+from src.security.crypto_service import decrypt_data
+
 prisma = Prisma()
+
 
 class ExchangeConnector:
     @staticmethod
@@ -22,8 +26,4 @@ class ExchangeConnector:
         api_key = decrypt_data(key.encrypted_key, key.iv_key)
         api_secret = decrypt_data(key.encrypted_secret, key.iv_secret)
         cls = getattr(ccxt, exchange_name)
-        return cls({
-            "apiKey": api_key,
-            "secret": api_secret,
-            "enableRateLimit": True
-        })
+        return cls({"apiKey": api_key, "secret": api_secret, "enableRateLimit": True})
